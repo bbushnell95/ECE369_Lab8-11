@@ -5,7 +5,8 @@
 // 
 //
 //
-// Student(s) Name and Last Name: FILL IN YOUR INFO HERE!
+// Student(s) Name and Last Name:   Derek McMullen
+//                                  Brett Bushnell
 //
 //
 // Module - register_file.v
@@ -51,5 +52,14 @@
 module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
 
 	/* Please fill in the implementation here... */
+    output reg [31:0] ReadData1;
+    output reg [31:0] ReadData2;
+    
+    input [4:0] ReadRegister1;
+    input [4:0] ReadRegister2;
+    input [4:0] WriteRegister;
+    input [31:0] WriteData; 
+    input RegWrite; 
+    input Clk; 
 
 endmodule
