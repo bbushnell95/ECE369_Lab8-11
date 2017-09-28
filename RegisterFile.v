@@ -61,5 +61,20 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     input [31:0] WriteData; 
     input RegWrite; 
     input Clk; 
+ 
+    reg [31:0] RegisterBank[31:0];          //32 registers of 32-bit length
+        
+    always @ (posedge Clk)
+        begin
+            if (RegWrite == 1)
+                RegisterBank[WriteRegister] <= WriteData; 
+       // end
+       
+    //always @ (negedge Clk)
+       // begin
+           ReadData1 <= RegisterBank[ReadRegister1[4:0]]; 
+           ReadData2 <= RegisterBank[ReadRegister2]; 
+        end
+        
 
 endmodule
