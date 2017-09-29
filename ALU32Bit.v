@@ -29,8 +29,8 @@
 // OR   | 0001
 // SLT  | 0111
 //
-// NOTE:-
-// SLT (i.e., set on less than): ALUResult is '32'h000000001' if A < B.
+// NOTE:-less
+// SLT (i.e., set on  than): ALUResult is '32'h000000001' if A < B.
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
