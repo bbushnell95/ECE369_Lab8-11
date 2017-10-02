@@ -29,8 +29,8 @@
 // OR   | 0001
 // SLT  | 0111
 //
-// NOTE:-
-// SLT (i.e., set on less than): ALUResult is '32'h000000001' if A < B.
+// NOTE:-less
+// SLT (i.e., set on  than): ALUResult is '32'h000000001' if A < B.
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -41,8 +41,28 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
 
 	output [31:0] ALUResult;	// answer
 	output Zero;	    // Zero=1 if ALUResult == 0
-
+    
     /* Please fill in the implementation here... */
+    parameter ADD = 4'b0010, SUB = 4'b0110, AND = 4'b0000, OR = 4'b0001, SLT = 4'b0111;
+    reg [31:0] TempResult;
+    reg TempZero;
+    
+    always@(ALUControl, A, B)begin
+        TempZero <= 0;
+        case(ALUControl)
+            ADD: TempResult = A + B;
+            SUB: TempResult = A - B;
+            AND: TempResult = A & B;
+            OR: TempResult = A | B;
+            SLT: TempResult = A < B;
+        endcase
+        
+        //check if the result is zero
+        if(TempResult == 0)TempZero <= 1;
+    end
+    
+    assign Zero = TempZero;
+    assign ALUResult = TempResult;
 
 endmodule
 
