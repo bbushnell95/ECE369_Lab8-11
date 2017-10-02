@@ -22,6 +22,8 @@ module RegisterFile_tb();
 
 	wire [31:0] ReadData1;
 	wire [31:0] ReadData2;
+	
+	integer i; 
 
 
 	RegisterFile u0(
@@ -44,22 +46,19 @@ module RegisterFile_tb();
 	
     /* Please fill in the implementation here... */
     // Initialize the RegisterBank with arbitrary values
-    RegWrite <= 1;
-    #5;                      
-        for (i=8; i<25; i=i+1) begin           
-           WriteRegister <= i * 10; 
-           #10;
+    RegWrite <= 1;                    
+        for (i=8; i<26; i=i+1) begin           
+           WriteRegister <= i; 
+           WriteData <= i *10;
+           #20;
         end
     
     // Read back values from the RegisterBank
-    RegWrite <= 0; 
-    #5;                    
+    RegWrite <= 0;                
         for (i=8; i<25; i=i+2) begin           
             ReadRegister1 <= i;
             ReadRegister2 <= i+1; 
-            #10;
-           // $display("Register1 Fetched = %h", ReadData1);
-           // $display("Register2 Fetched = %h", ReadData2);
+            #20;
         end    
         
 	end
