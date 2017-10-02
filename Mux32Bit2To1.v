@@ -16,5 +16,12 @@ module Mux32Bit2To1(out, inA, inB, sel);
     input sel;
 
     /* Fill in the implementation here ... */ 
+	always @(sel or inA or inB)
+	begin
+		if (sel == 0)
+			out <= inA;
+		else
+			out <= inB;
+	end
 
 endmodule
