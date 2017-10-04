@@ -56,8 +56,7 @@ module InstructionMemory(Address, Instruction);
     always @ (Address)              // Find the desired address then assign the output to the corresponding instruction
     begin
         //Need calculation of InstructionBand index to be blocking
-        DecimalEQ = (Address[2]*1) + (Address[3]*2) + (Address[4]*4) + (Address[5]*8) + (Address[6]*16) + (Address[7]*32) + (Address[8]*64);
-        Instruction <= InstructionBank[DecimalEQ]; 
+        Instruction <= InstructionBank[Address[8:2]]; 
     end
 
 endmodule
