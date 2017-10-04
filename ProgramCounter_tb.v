@@ -46,7 +46,7 @@ module ProgramCounter_tb();
     #20 $display("PCResult = %h", PCResult);
     
     //Case 4: Reset #2
-    Reset <= 1'b1;
+    #19Reset <= 1'b1;
     #1 Reset <= 1'b0; $display("PCResult = %h", PCResult);
 	end
 
