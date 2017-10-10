@@ -27,7 +27,17 @@
 // SUB  | 0110
 // AND  | 0000
 // OR   | 0001
+// NOR  |
+// XOR  |
 // SLT  | 0111
+// MULT |
+// SEH  |
+// SEB  |
+// SLL  |
+// SRL  |
+// ROTR |
+// SRA  |
+//
 //
 // NOTE:-less
 // SLT (i.e., set on  than): ALUResult is '32'h000000001' if A < B.
