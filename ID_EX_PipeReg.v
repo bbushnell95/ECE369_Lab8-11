@@ -9,7 +9,7 @@
 // Description - Implements a register between ID and EX stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
+module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
 
 	/* Control Signals*/
     output reg BranchOut; 
@@ -21,6 +21,7 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     output reg [3:0] ALUOpOut; 
     output reg ALUSrcOut;
     
+    output reg [31:0] PCValueOut;
     output reg [31:0] ReadData1Out;
     output reg [31:0] ReadData2Out;
     output reg [31:0] SignExtendOffsetOut;
@@ -37,6 +38,7 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     input [3:0] ALUOpIn; 
     input ALUSrcIn;
     
+    input [31:0] PCValueIn;
     input [31:0] ReadData1In;
     input [31:0] ReadData2In;
     input [31:0] SignExtendOffsetIn;
@@ -44,7 +46,7 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     input [4:0] RTFieldIn;
     input Clk; 
         
-    always @ (negedge Clk)
+    always @ (posedge Clk)
         begin
         BranchOut <= BranchIn; 
         MemReadOut <= MemReadIn; 
@@ -55,6 +57,7 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
         ALUOpOut <= ALUOpIn; 
         ALUSrcOut <= ALUSrcIn;
         
+        PCValueOut <= PCValueIn; 
         ReadData1Out <= ReadData1In;
         ReadData2Out <= ReadData2In;
         SignExtendOffsetOut <= SignExtendOffsetIn;
