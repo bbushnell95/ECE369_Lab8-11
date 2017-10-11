@@ -45,19 +45,20 @@ module HILoUnit_tb();
         Clk <= 1'b0;
         AddToHi <= 1'b0;
         AddToLo <= 1'b0;
-        MoveToHi <= 1'b1;
-        MoveToLo <= 1'b1;
+        MoveToHi <= 1'b0;
+        MoveToLo <= 1'b0;
         HiLoALUControl <= 1'b0;
-        Reset <= 1'b0;
-//        Upper = 'h00000001;
-//        Lower = 'h00000001;
+        Reset <= 1'b1;
+        Upper = 'h00000001;
+        Lower = 'h000FFFFF;
         forever #100 Clk <= ~Clk;
     end
     
     initial begin
         // Test Reset
-        #50 Reset <= 1'b1;
-        #1 Reset <= 1'b0;
-        #101 $display("HI = %h, LO = %h", HI, LO); MoveToHi <= 1'b0; MoveToLo <= 1'b0;
+        #110 Reset <= 1'b0;
+//        #101 $display("HI = %h, LO = %h", HI, LO); MoveToHi <= 1'b0; MoveToLo <= 1'b0;
+        #100 MoveToHi <= 1'b1; MoveToLo <= 1'b1;
+        #110 MoveToHi <= 1'b0; MoveToLo <= 1'b0;
     end
 endmodule
