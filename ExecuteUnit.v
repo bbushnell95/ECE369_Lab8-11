@@ -54,7 +54,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     ALU32Bit ALU32Bit_1(ALUOpIn, ALUInputData1, ALUInputData2, ALUOut, ZeroOut);
     
     //need to pass through most control signals
-    //need to pass through ReadData2In -> MemoryWriteDataOut (must add WriteDataOut)
+    //need to pass through ReadData2In -> MemoryWriteDataOut (must create WriteDataOut variable)
     
     //need to implement shift left 2
     //need to implement adder
