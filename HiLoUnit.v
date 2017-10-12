@@ -29,8 +29,8 @@ module HiLoUnit(Upper, Lower, Clk, Reset, HiLoALUControl, AddToHi, AddToLo, Move
     
     wire [31:0] HiMux1Out, LoMux1Out, HiMux2Out, LoMux2Out, HiALUOut, LoALUOut, HiRegOut, LoRegOut;
     
-    HiLoALU HiALU(HiLoALUControl, Upper, HiRegOut, HiALUOut);
-    HiLoALU LoALU(HiLoALUControl, Lower, LoRegOut, LoALUOut);
+    HiLoALU HiALU(HiLoALUControl, HiRegOut, Upper, HiALUOut);
+    HiLoALU LoALU(HiLoALUControl, LoRegOut, Lower, LoALUOut);
     Mux32Bit2To1 HiMux1(HiMux1Out, HiRegOut, HiALUOut, AddToHi);
     Mux32Bit2To1 LoMux1(LoMux1Out, LoRegOut, LoALUOut, AddToLo);
     Mux32Bit2To1 HiMux2(HiMux2Out, HiMux1Out, Upper, MoveToHi);

@@ -43,22 +43,31 @@ module HILoUnit_tb();
     
     initial begin
         Clk <= 1'b0;
+        forever #100 Clk <= ~Clk;
+    end
+    
+    initial begin
+        //Initialize values to zero (except Upper and Lower)
         AddToHi <= 1'b0;
         AddToLo <= 1'b0;
         MoveToHi <= 1'b0;
         MoveToLo <= 1'b0;
         HiLoALUControl <= 1'b0;
         Reset <= 1'b1;
-        Upper = 'h00000001;
-        Lower = 'h000FFFFF;
-        forever #100 Clk <= ~Clk;
-    end
-    
-    initial begin
+        Upper <= 'h00000001;
+        Lower <= 'h000FFFFF;
         // Test Reset
-        #110 Reset <= 1'b0;
-//        #101 $display("HI = %h, LO = %h", HI, LO); MoveToHi <= 1'b0; MoveToLo <= 1'b0;
+        @(posedge Clk);
+        #10 Reset <= 1'b0; $display("HI = %h, LO = %h", HI, LO);
         #100 MoveToHi <= 1'b1; MoveToLo <= 1'b1;
-        #110 MoveToHi <= 1'b0; MoveToLo <= 1'b0;
+        @(posedge Clk);
+        #10 MoveToHi <= 1'b0; MoveToLo <= 1'b0;
+        #100 Upper <= 'h00000001; Lower <= 'h00000001; AddToHi <= 1'b1; AddToLo <= 1'b1;
+        @(posedge Clk);
+        #10 AddToHi <= 1'b0; AddToLo <= 1'b0; $display("HI = %h, LO = %h", HI, LO);
+        #100 Upper <= 'h00000002; Lower <= 'h00000001; AddToHi <= 1'b1; AddToLo <= 1'b1; HiLoALUControl <= 1'b1;
+        @(posedge Clk);
+        #10 AddToHi <= 1'b0; AddToLo <= 1'b0; HiLoALUControl <= 1'b0; $display("HI = %h, LO = %h", HI, LO);
     end
 endmodule
+
