@@ -49,6 +49,6 @@ module InstructionFetchUnit(Instruction, Reset, Clk);
     PCAdder PCAdder_1(programCount, addrOut);
     ProgramCounter ProgramCounter_1(addrOut, programCount, Reset, Clk);
     InstructionMemory InstuctionMemeory_1(programCount, Instruction);
-    
+
 endmodule
 
