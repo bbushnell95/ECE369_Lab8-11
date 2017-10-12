@@ -27,7 +27,17 @@
 // SUB  | 0110
 // AND  | 0000
 // OR   | 0001
+// NOR  |
+// XOR  |
 // SLT  | 0111
+// MULT |
+// SEH  |
+// SEB  |
+// SLL  |
+// SRL  |
+// ROTR |
+// SRA  |
+//
 //
 // NOTE:-less
 // SLT (i.e., set on  than): ALUResult is '32'h000000001' if A < B.
@@ -39,12 +49,12 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
 	input [3:0] ALUControl; // control bits for ALU operation
 	input [31:0] A, B;	    // inputs
 
-	output [31:0] ALUResult;	// answer
+	output [63:0] ALUResult;	// answer
 	output Zero;	    // Zero=1 if ALUResult == 0
     
     /* Please fill in the implementation here... */
     parameter ADD = 4'b0010, SUB = 4'b0110, AND = 4'b0000, OR = 4'b0001, SLT = 4'b0111;
-    reg [31:0] TempResult;
+    reg [63:0] TempResult;
     reg TempZero;
     
     always@(ALUControl, A, B)begin
