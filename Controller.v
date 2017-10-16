@@ -5,7 +5,7 @@
 // Overall percent effort of each team member:
 // Brett Bushnell -- 50%
 // Derek Mcmullen -- 50% 
-// 
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, RegDst, ALUOp, ALUSrc, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, ZeroExtend, AltALUSrc1, ZeroALUSrc1, Swap, ALUHiLoSelect);
@@ -143,7 +143,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b011100xxxxxxxxxxxxxxxxxxxx000010:    begin   // MUL Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'bXXXX;
+        ALUOp           <= 4'b1000;
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -164,7 +164,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b000000xxxxxxxxxxxxxxxxxxxx011000:    begin   // MULT Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'bXXXX;
+        ALUOp           <= 4'b1000;
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -185,7 +185,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b000000xxxxxxxxxxxxxxxxxxxx011001:    begin   // MULTU Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'bXXXX;
+        ALUOp           <= 4'b1000;
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -206,7 +206,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b011100xxxxxxxxxxxxxxxxxxxx000000:    begin   // MADD Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'bXXXX;
+        ALUOp           <= 4'b1000;
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -227,7 +227,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b011100xxxxxxxxxxxxxxxxxxxx000100:    begin   // MSUB Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'bXXXX;
+        ALUOp           <= 4'b1000;
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -313,7 +313,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b000000xxxxxxxxxxxxxxxxxxxx100111:    begin   // NOR Command
         RegWrite        <= 1'b1;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'bXXXX;
+        ALUOp           <= 4'b0011;
         RegDst          <= 1'b1; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -334,7 +334,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx100110:    begin   // XOR Command
         RegWrite        <= 1'b1;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'b0000;
+        ALUOp           <= 4'b0100;
         RegDst          <= 1'b1; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -376,7 +376,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b001110xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // XORI Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
-        ALUOp       <= 4'bXXXX;       //need XOR
+        ALUOp       <= 4'b0100;       //need XOR
         RegDst      <= 1'b0; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -397,7 +397,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b011111xxxxxxxxxxxxxxxxxxxx100000:    begin   // SEH Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;       //need SEH
+        ALUOp       <= 4'b1001;       //need SEH
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -418,7 +418,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000000:    begin   // SLL Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
-        ALUOp       <= 4'bXXXX;      //need SLL
+        ALUOp       <= 4'b1011;      //need SLL
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -439,7 +439,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000010:    begin   // SRL Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
-        ALUOp       <= 4'bXXXX;      //need SRL
+        ALUOp       <= 4'b1100;      //need SRL
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -460,7 +460,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000100:    begin   // SLLV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need SLL
+        ALUOp       <= 4'b1011;     //need SLL
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -481,7 +481,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000110:    begin   // SRLV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need SRL
+        ALUOp       <= 4'b1100;     //need SRL
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -544,7 +544,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx001011:    begin   // MOVN Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need XOR
+        ALUOp       <= 4'b0100;     //need XOR
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -565,7 +565,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx001010:    begin   // MOVZ Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need XOR
+        ALUOp       <= 4'b0100;     //need XOR
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -586,7 +586,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000110:    begin   // ROTRV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
-        ALUOp       <= 4'bXXXX;     //need ROTR
+        ALUOp       <= 4'b1101;     //need ROTR
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -607,7 +607,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000010:    begin   // ROTR Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
-        ALUOp       <= 4'bXXXX;     //need ROTR
+        ALUOp       <= 4'b1101;     //need ROTR
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -628,7 +628,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000011:    begin   // SRA Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need SRA
+        ALUOp       <= 4'b1110;     //need SRA
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -649,7 +649,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b000000xxxxxxxxxxxxxxxxxxxx000111:    begin   // SRAV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need SRA
+        ALUOp       <= 4'b1110;     //need SRA
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
@@ -670,7 +670,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     32'b011111xxxxxxxxxxxxxxxxxxxx100000:    begin   // SEB Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'bXXXX;     //need SEB
+        ALUOp       <= 4'b1010;     //need SEB
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 
