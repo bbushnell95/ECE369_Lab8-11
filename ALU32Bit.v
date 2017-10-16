@@ -30,7 +30,7 @@
 // NOR  |
 // XOR  |
 // SLT  | 0111
-// MULT |
+// MULT | 
 // SEH  |
 // SEB  |
 // SLL  |

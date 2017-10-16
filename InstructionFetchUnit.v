@@ -46,6 +46,7 @@ module InstructionFetchUnit(Instruction, Reset, Clk);
     output [31:0]Instruction;
     wire[31:0] addrOut, programCount;
     
+    // Included Modules
     PCAdder PCAdder_1(programCount, addrOut);
     ProgramCounter ProgramCounter_1(addrOut, programCount, Reset, Clk);
     InstructionMemory InstuctionMemeory_1(programCount, Instruction);
