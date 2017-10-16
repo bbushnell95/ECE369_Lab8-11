@@ -13,8 +13,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     /* Control Signals*/
     output RegWriteOut; 
     output MemToRegOut; 
-    output PCSrcOut; 
-    
+    output PCSrcOut;
     output [31:0] ALUOut;
     output [31:0] DataMemOut;
     output [4:0] DestinationRegOut; 

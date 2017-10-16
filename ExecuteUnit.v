@@ -8,8 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, SwapIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, RegisterWriteDataOut, DestinationRegOut, MemoryWriteDataOut);
-	
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, SwapIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, RegisterWriteDataOut, DestinationRegOut, MemoryWriteDataOut, HiLoUnitOut);	
 	/* Control Signals*/
     output BranchOut; 
     output MemReadOut; 
@@ -17,13 +16,14 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     output RegWriteOut; 
     output MemToRegOut; 
         
-    output [31:0] BranchTargetAddressOut;			//this is pcvalue after adding and shifting
-    output [63:0] ALUOut;
+  output [31:0] BranchTargetAddressOut;			//this is pcvalue after adding and shifting
+  output [31:0] ALUOut;
 	output ZeroOut; 
 	output [31:0] RegisterWriteDataOut; 
-    output [4:0] DestinationRegOut; 
-    output [31:0] MemoryWriteDataOut; 
-	
+  output [4:0] DestinationRegOut; 
+  output [31:0] MemoryWriteDataOut;
+  output [31:0] HiLoUnitOut;
+  
 	/* Control Signals */
     input Reset, Clk;
     input BranchIn; 
@@ -34,10 +34,10 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     input RegDstIn; 
     input [3:0] ALUOpIn; 
     input ALUSrcIn;
+    input HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel;
     input AltALUSrc1In; 
     input ZeroALUSrc1In; 
     input SwapIn; 
-    
 	input [31:0] PCValueIn; 
     input [31:0] ReadData1In;
     input [31:0] ReadData2In;
@@ -47,7 +47,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 
     wire [31:0] ALUInputData1;              // First Input of ALU
     wire [31:0] ALUInputData2;              // Second Input of ALU
-    wire [31:0] AltALUInputData;            
+    wire [31:0] AltALUInputData;
+    wire [63:0] ALUResult;
     wire [31:0] SwapperWire1;
     wire [31:0] SwapperWire2;  
 	
@@ -63,6 +64,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     
     // ALU
     ALU32Bit ALU32Bit_1(ALUOpIn, ALUInputData1, ALUInputData2, ALUOut, ZeroOut);
+    HiLoUnit HiLoUnit_1(ALUResult[63:32], ALUResult[31:0], Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, HiLoOut);
+    
     
     // Assign Statements
     assign BranchOut = BranchIn; 
@@ -71,10 +74,10 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign RegWriteOut = RegWriteIn; 
     assign MemToRegOut = MemToRegIn; 
     assign MemoryWriteDataOut = ReadData2In; 
+    assign ALUOut = ALUResult[31:0];
     
     // Need to check this adder and shifter combo
     assign BranchTargetAddressOut = (SignExtendOffsetIn << 2) + PCValueIn; 
-    
     
 endmodule
 

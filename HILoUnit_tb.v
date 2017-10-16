@@ -23,9 +23,9 @@
 module HILoUnit_tb();
 
     reg [31:0] Upper, Lower;
-    reg Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo;
+    reg Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel;
     
-    wire [31:0] HI, LO;
+    wire [31:0] HiLoOut;
     
     HiLoUnit u0(
         .Upper(Upper),
@@ -37,8 +37,8 @@ module HILoUnit_tb();
         .AddToLo(AddToLo),
         .MoveToHi(MoveToHi),
         .MoveToLo(MoveToLo),
-        .HI(HI),
-        .LO(LO)
+        .HiLoSel(HiLoSel),
+        .HiLoOut(HiLoOut)
     );
     
     initial begin
@@ -53,21 +53,30 @@ module HILoUnit_tb();
         MoveToHi <= 1'b0;
         MoveToLo <= 1'b0;
         HiLoALUControl <= 1'b0;
+        HiLoSel <= 1'b0;
         Reset <= 1'b1;
         Upper <= 'h00000001;
         Lower <= 'h000FFFFF;
         // Test Reset
         @(posedge Clk);
-        #10 Reset <= 1'b0; $display("HI = %h, LO = %h", HI, LO);
+        #10 Reset <= 1'b0; $display("HiLoOut = %h", HiLoOut);
+        //Test Move to Hi and Lo
         #100 MoveToHi <= 1'b1; MoveToLo <= 1'b1;
         @(posedge Clk);
         #10 MoveToHi <= 1'b0; MoveToLo <= 1'b0;
+        //Test adding to hi and lo
         #100 Upper <= 'h00000001; Lower <= 'h00000001; AddToHi <= 1'b1; AddToLo <= 1'b1;
         @(posedge Clk);
-        #10 AddToHi <= 1'b0; AddToLo <= 1'b0; $display("HI = %h, LO = %h", HI, LO);
+        #10 AddToHi <= 1'b0; AddToLo <= 1'b0; $display("HiLoOut = %h", HiLoOut);
+        //test subtracting hi and lo
         #100 Upper <= 'h00000002; Lower <= 'h00000001; AddToHi <= 1'b1; AddToLo <= 1'b1; HiLoALUControl <= 1'b1;
         @(posedge Clk);
-        #10 AddToHi <= 1'b0; AddToLo <= 1'b0; HiLoALUControl <= 1'b0; $display("HI = %h, LO = %h", HI, LO);
+        #10 AddToHi <= 1'b0; AddToLo <= 1'b0; HiLoALUControl <= 1'b0; $display("HiLoOut = %h", HiLoOut);
+        // Test HiLoSel
+        #100 HiLoSel <= 1'b1;
+        $display("HiLoOut = %h", HiLoOut);
+        #100 HiLoSel <= 1'b0;
+        $display("HiLoOut = %h", HiLoOut);
     end
 endmodule
 
