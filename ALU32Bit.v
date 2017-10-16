@@ -27,16 +27,16 @@
 // SUB  | 0110
 // AND  | 0000
 // OR   | 0001
-// NOR  |
-// XOR  |
+// NOR  | 0011
+// XOR  | 0100
 // SLT  | 0111
-// MULT | 
-// SEH  |
-// SEB  |
-// SLL  |
-// SRL  |
-// ROTR |
-// SRA  |
+// MULT | 1000
+// SEH  | 1001
+// SEB  | 1010
+// SLL  | 1011
+// SRL  | 1100
+// ROTR | 1101
+// SRA  | 1110
 //
 //
 // NOTE:-less
@@ -53,7 +53,8 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
 	output Zero;	    // Zero=1 if ALUResult == 0
     
     /* Please fill in the implementation here... */
-    parameter ADD = 4'b0010, SUB = 4'b0110, AND = 4'b0000, OR = 4'b0001, SLT = 4'b0111;
+    parameter ADD = 4'b0010, SUB = 4'b0110, AND = 4'b0000, OR = 4'b0001, NOR = 4'b0011, XOR = 4'b0100, SLT = 4'b0111;
+    parameter MULT = 4'b1000, SEH = 4'b1001, SEB = 4'b1010, SLL = 4'b1011, SRL = 4'b1100, ROTR = 4'b1101, SRA = 4'b1110;
     reg [63:0] TempResult;
     reg TempZero;
     
@@ -64,11 +65,21 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             SUB: TempResult = A - B;
             AND: TempResult = A & B;
             OR: TempResult = A | B;
+            NOR: TempResult = ~(A | B);
+            XOR: TempResult = A ^ B;
             SLT: TempResult = A < B;
+            MULT: TempResult = A * B;
+            SEH: TempResult = {{16{A[15]}}, A[15:0]};
+            SEB: TempResult = {{24{A[7]}}, A[7:0]};
+            SLL: TempResult = A << B;
+            SRL: TempResult = A >> B;
+            ROTR:TempResult = {{32{1'b0}}, (A << 32-B) | (A >> B)};
+            SRA: TempResult = A >>> B;
+            default: TempResult = 64'bX;
         endcase
         
         //check if the result is zero
-        if(TempResult == 0)TempZero <= 1;
+        if(TempResult == 0) TempZero <= 1;
     end
     
     assign Zero = TempZero;
