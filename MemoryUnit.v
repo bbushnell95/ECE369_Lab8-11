@@ -27,7 +27,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     input MemToRegIn; 
     
     input [31:0] BranchTargetAddressIn;
-    input [63:0] ALUIn;
+    input [31:0] ALUIn;
     input ZeroIn;
     input [31:0] MemoryWriteDataIn; 
     input [4:0] DestinationRegIn; 
@@ -37,11 +37,13 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     wire [31:0] AltALUInputData;            // wire from mux to mux at input 1 of ALU
     
 	DataMemory DataMemory_1(ALUIn[31:0], MemoryWriteDataIn, Clk, MemWriteIn, MemReadIn, DataMemOut);
+	//need to implement branch AND gate logic
 	
-	//need to pass regwrite and memtoreg control signals through
-    //need to pass destination reg through
-    //need to implement the branch and logic
-    //need to pass lower 32?64? from ALUIn to ALUOut 
+	// Assign Statements
+	assign RegWriteOut = RegWriteIn; 
+	assign MemToRegOut = MemToRegIn; 
+	assign DestinationRegOut = DestinationRegIn; 
+    assign ALUOut = ALUIn; 
     
 endmodule
 

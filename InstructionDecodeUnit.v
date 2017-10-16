@@ -34,14 +34,16 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output [4:0] RDFieldOut; 
     output [4:0] RTFieldOut; 
 	
+    // Included Modules
     RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, ReadData1Out, ReadData2Out);
     SignExtension SignExtension_1(Instruction[15:0],SignExtendOffsetOut);
     
     //controller needs to be implemented
-    //need to pass inst[20:16] -> RTFieldOut
-    //need to pass inst[15:11] -> RDFieldOut
-    //need to pass PCValueIn -> PCValueOut
     
+    // Assign Statements
+    assign RTFieldOut = Instruction[20:16];
+    assign RDFieldOut = Instruction[15:11];
+    assign PCValueOut = PCValueIn;     
     
 endmodule
 

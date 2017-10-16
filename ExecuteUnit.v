@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, RegisterWriteDataOut, DestinationRegOut);
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, RegisterWriteDataOut, DestinationRegOut, MemoryWriteDataOut);
 	
 	/* Control Signals*/
     output BranchOut; 
@@ -22,6 +22,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 	output ZeroOut; 
 	output [31:0] RegisterWriteDataOut; 
     output [4:0] DestinationRegOut; 
+    output [31:0] MemoryWriteDataOut; 
 	
 	/* Control Signals */
     input Reset, Clk;
@@ -47,17 +48,25 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     wire [31:0] ALUInputData2;              // Second Input of ALU
     wire [31:0] AltALUInputData;            // wire from mux to mux at input 1 of ALU
 	
+    // Included Modules
 	Mux32Bit2To1 Mux32Bit2To1_1(ALUInputData1, ReadData1In, AltALUInputData, AltALUSrc1); 
 	Mux32Bit2To1 Mux32Bit2To1_2(ALUInputData2, ReadData2In, SignExtendOffsetIn, ALUSrcIn); 
     Mux32Bit2To1 Mux32Bit2To1_3(AltALUInputData, ReadData2In, 0, ZeroALUSrc1); 
     Mux32Bit2To1 Mux32Bit2To1_4(DestinationRegOut, RTFieldIn, RDFieldIn, RegDstIn); 
     ALU32Bit ALU32Bit_1(ALUOpIn, ALUInputData1, ALUInputData2, ALUOut, ZeroOut);
     
-    //need to pass through most control signals
-    //need to pass through ReadData2In -> MemoryWriteDataOut (must create WriteDataOut variable)
+    // Assign Statements
+    assign BranchOut = BranchIn; 
+    assign MemReadOut = MemReadIn; 
+    assign MemWriteOut = MemWriteIn; 
+    assign RegWriteOut = RegWriteIn; 
+    assign MemToRegOut = MemToRegIn; 
+    assign MemoryWriteDataOut = ReadData2In; 
     
     //need to implement shift left 2
     //need to implement adder
+    //BranchTargetAddressOut = Adder Output
+    
     //controller needs to be implemented
     
 endmodule
