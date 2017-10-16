@@ -17,7 +17,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     output RegWriteOut; 
     output MemToRegOut; 
         
-    output [31:0] BranchTargetAddressOut;			//this is pcvalue
+    output [31:0] BranchTargetAddressOut;			//this is pcvalue after adding and shifting
     output [63:0] ALUOut;
 	output ZeroOut; 
 	output [31:0] RegisterWriteDataOut; 

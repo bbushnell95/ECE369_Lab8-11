@@ -8,13 +8,14 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, ALUOut, DataMemOut, DestinationRegOut);
+module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, ALUOut, DataMemOut, DestinationRegOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
     output MemToRegOut; 
+    output PCSrcOut; 
     
-    output [63:0] ALUOut;
+    output [31:0] ALUOut;
     output [31:0] DataMemOut;
     output [4:0] DestinationRegOut; 
 	
@@ -37,13 +38,15 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     wire [31:0] AltALUInputData;            // wire from mux to mux at input 1 of ALU
     
 	DataMemory DataMemory_1(ALUIn[31:0], MemoryWriteDataIn, Clk, MemWriteIn, MemReadIn, DataMemOut);
-	//need to implement branch AND gate logic
 	
 	// Assign Statements
 	assign RegWriteOut = RegWriteIn; 
 	assign MemToRegOut = MemToRegIn; 
 	assign DestinationRegOut = DestinationRegIn; 
     assign ALUOut = ALUIn; 
+    
+    // Branch AND Gate Logic
+    assign PCSrcOut = ZeroIn & BranchIn; 
     
 endmodule
 
