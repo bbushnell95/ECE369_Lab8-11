@@ -10,14 +10,16 @@
 module SignExtension_tb();
 
     reg	[15:0] in;
+    reg zeroExtend;
     wire [31:0]	out;
 
     SignExtension u0(
-        .in(in), .out(out)
+        .in(in), .zeroExtend(zeroExtend), .out(out)
     );
         
     initial begin
-
+            
+            zeroExtend <= 1'b0;
 			#100 in <= 16'h0004;
 			#20 $display("in=%h, out=%h", in, out);
 
@@ -29,6 +31,9 @@ module SignExtension_tb();
 			
 			#100 in <= 16'hF000;
 			#20 $display("in=%h, out=%h", in, out);
+			
+			#100 in <= 16'hF000; zeroExtend <= 1'b1;
+			#20 $display("in=%h, out=%h, zeroExtend=%b", in, out, zeroExtend);
 			
 	 end
 
