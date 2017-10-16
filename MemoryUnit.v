@@ -32,10 +32,6 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     input ZeroIn;
     input [31:0] MemoryWriteDataIn; 
     input [4:0] DestinationRegIn; 
-
-    wire [31:0] ALUInputData1;              // First Input of ALU
-    wire [31:0] ALUInputData2;              // Second Input of ALU
-    wire [31:0] AltALUInputData;            // wire from mux to mux at input 1 of ALU
     
 	DataMemory DataMemory_1(ALUIn[31:0], MemoryWriteDataIn, Clk, MemWriteIn, MemReadIn, DataMemOut);
 	
