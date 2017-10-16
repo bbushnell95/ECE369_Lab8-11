@@ -63,9 +63,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign MemToRegOut = MemToRegIn; 
     assign MemoryWriteDataOut = ReadData2In; 
     
-    //need to implement shift left 2
-    //need to implement adder
-    //BranchTargetAddressOut = Adder Output
+    // Need to check this adder and shifter combo
+    assign BranchTargetAddressOut = (SignExtendOffsetIn << 2) + PCValueIn; 
     
     //controller needs to be implemented
     
