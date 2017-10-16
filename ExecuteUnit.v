@@ -47,7 +47,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 
     wire [31:0] ALUInputData1;              // First Input of ALU
     wire [31:0] ALUInputData2;              // Second Input of ALU
-    wire [31:0] AltALUInputData;            // wire from mux to mux at input 1 of ALU
+    wire [31:0] AltALUInputData;            
     wire [31:0] SwapperWire1;
     wire [31:0] SwapperWire2;  
 	
@@ -56,9 +56,12 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 	Mux32Bit2To1 Mux32Bit2To1_2(SwapperWire2, ReadData2In, SignExtendOffsetIn, ALUSrcIn); 
     Mux32Bit2To1 Mux32Bit2To1_3(AltALUInputData, ReadData2In, 0, ZeroALUSrc1In); 
     Mux32Bit2To1 Mux32Bit2To1_4(DestinationRegOut, RTFieldIn, RDFieldIn, RegDstIn); 
+    
     // Swap Muxes
     Mux32Bit2To1 Mux32Bit2To1_5(ALUInputData1, SwapperWire1, SwapperWire2, SwapIn);  
     Mux32Bit2To1 Mux32Bit2To1_6(ALUInputData2, SwapperWire2, SwapperWire1, SwapIn);
+    
+    // ALU
     ALU32Bit ALU32Bit_1(ALUOpIn, ALUInputData1, ALUInputData2, ALUOut, ZeroOut);
     
     // Assign Statements
@@ -72,7 +75,6 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     // Need to check this adder and shifter combo
     assign BranchTargetAddressOut = (SignExtendOffsetIn << 2) + PCValueIn; 
     
-    //controller needs to be implemented
     
 endmodule
 
