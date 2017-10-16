@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, RegisterWriteDataOut, DestinationRegOut, MemoryWriteDataOut);
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, SwapIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, RegisterWriteDataOut, DestinationRegOut, MemoryWriteDataOut);
 	
 	/* Control Signals*/
     output BranchOut; 
@@ -34,8 +34,9 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     input RegDstIn; 
     input [3:0] ALUOpIn; 
     input ALUSrcIn;
-    // need to implement AltALUSrc1 & ZeroALUSrc1
-    // need to add swap mux and control
+    input AltALUSrc1In; 
+    input ZeroALUSrc1In; 
+    input SwapIn; 
     
 	input [31:0] PCValueIn; 
     input [31:0] ReadData1In;
@@ -47,12 +48,17 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     wire [31:0] ALUInputData1;              // First Input of ALU
     wire [31:0] ALUInputData2;              // Second Input of ALU
     wire [31:0] AltALUInputData;            // wire from mux to mux at input 1 of ALU
+    wire [31:0] SwapperWire1;
+    wire [31:0] SwapperWire2;  
 	
     // Included Modules
-	Mux32Bit2To1 Mux32Bit2To1_1(ALUInputData1, ReadData1In, AltALUInputData, AltALUSrc1); 
-	Mux32Bit2To1 Mux32Bit2To1_2(ALUInputData2, ReadData2In, SignExtendOffsetIn, ALUSrcIn); 
-    Mux32Bit2To1 Mux32Bit2To1_3(AltALUInputData, ReadData2In, 0, ZeroALUSrc1); 
+	Mux32Bit2To1 Mux32Bit2To1_1(SwapperWire1, ReadData1In, AltALUInputData, AltALUSrc1In); 
+	Mux32Bit2To1 Mux32Bit2To1_2(SwapperWire2, ReadData2In, SignExtendOffsetIn, ALUSrcIn); 
+    Mux32Bit2To1 Mux32Bit2To1_3(AltALUInputData, ReadData2In, 0, ZeroALUSrc1In); 
     Mux32Bit2To1 Mux32Bit2To1_4(DestinationRegOut, RTFieldIn, RDFieldIn, RegDstIn); 
+    // Swap Muxes
+    Mux32Bit2To1 Mux32Bit2To1_5(ALUInputData1, SwapperWire1, SwapperWire2, SwapIn);  
+    Mux32Bit2To1 Mux32Bit2To1_6(ALUInputData2, SwapperWire2, SwapperWire1, SwapIn);
     ALU32Bit ALU32Bit_1(ALUOpIn, ALUInputData1, ALUInputData2, ALUOut, ZeroOut);
     
     // Assign Statements
