@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
+module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, AltALUSrc1Out, ZeroALUSrc1Out, SwapOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
 
     input Reset, Clk;
     input [31:0] Instruction;
@@ -26,6 +26,9 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output RegDstOut; 
     output [3:0] ALUOpOut; 
     output ALUSrcOut;
+    output AltALUSrc1Out; 
+    output ZeroALUSrc1Out;
+    output SwapOut;
     
     output [31:0] PCValueOut; 
     output [31:0] ReadData1Out;
@@ -34,11 +37,14 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output [4:0] RDFieldOut; 
     output [4:0] RTFieldOut; 
 	
+	wire ZeroExtend; 	
+	
     // Included Modules
     RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, ReadData1Out, ReadData2Out);
     SignExtension SignExtension_1(Instruction[15:0],SignExtendOffsetOut);
-    
-    //controller needs to be implemented
+    Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, SwapOut);
+
+    //need to implement ZeroExtend control bit into the sign extender module and add to the above instance
     
     // Assign Statements
     assign RTFieldOut = Instruction[20:16];
