@@ -17,7 +17,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     output reg RegWrite; 
     output reg MemToReg; 
     output reg RegDst; 
-    output reg [3:0] ALUOp; 
+    output reg [4:0] ALUOp; 
     output reg ALUSrc;
     output reg HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel;
 	output reg ZeroExtend; 
@@ -37,7 +37,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b00000000000000000000000000000000:    begin   // NOP Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'b1111;        
+        ALUOp           <= 4'bxxxx;        
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
@@ -438,25 +438,25 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         HiLoSel <= 1'b0; 
       end   
     32'b000000xxxxxxxxxxxxxxxxxxxx000000:    begin   // SLL Command
-        RegWrite    <= 1'b1;
-        ALUSrc      <= 1'b1;
-        ALUOp       <= 4'b1011;      //need SLL
-        RegDst      <= 1'b1; 
-        Branch      <= 1'b0; 
-        MemWrite    <= 1'b0; 
-        MemRead     <= 1'b0; 
-        ZeroExtend  <= 1'b0; 
-        MemToReg    <= 1'b1;
-        AltALUSrc1  <= 1'b1; 
-        ZeroALUSrc1 <= 1'b0; 
-        Swap        <= 1'b0; 
-        ALUHiLoSelect <= 1'b0; 
-        HiLoALUControl <= 1'b0; 
-        AddToHi <= 1'b0; 
-        AddToLo <= 1'b0; 
-        MoveToHi <= 1'b0; 
-        MoveToLo <= 1'b0; 
-        HiLoSel <= 1'b0; 
+        RegWrite        <= 1'b1;
+        ALUSrc          <= 1'b1;
+        ALUOp           <= 4'b1011;      //need SLL
+        RegDst          <= 1'b1; 
+        Branch          <= 1'b0; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b1;
+        AltALUSrc1      <= 1'b1; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        MoveToLo        <= 1'b0; 
+        HiLoSel         <= 1'b0; 
       end
     32'b00000000000xxxxxxxxxxxxxxx000010:    begin   // SRL Command
         RegWrite    <= 1'b1;
@@ -480,30 +480,30 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         HiLoSel <= 1'b0; 
       end  
     32'b000000xxxxxxxxxxxxxxxxxxxx000100:    begin   // SLLV Command
-        RegWrite    <= 1'b1;
-        ALUSrc      <= 1'b0;
-        ALUOp       <= 4'b1011;     //need SLL
-        RegDst      <= 1'b1; 
-        Branch      <= 1'b0; 
-        MemWrite    <= 1'b0; 
-        MemRead     <= 1'b0; 
-        ZeroExtend  <= 1'b0; 
-        MemToReg    <= 1'b1;
-        AltALUSrc1  <= 1'b0; 
-        ZeroALUSrc1 <= 1'b0; 
-        Swap        <= 1'b1; 
-        ALUHiLoSelect <= 1'b0; 
-        HiLoALUControl <= 1'b0; 
-        AddToHi <= 1'b0; 
-        AddToLo <= 1'b0; 
-        MoveToHi <= 1'b0; 
-        MoveToLo <= 1'b0; 
-        HiLoSel <= 1'b0; 
+        RegWrite        <= 1'b1;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 4'b0101;     //need SLLV
+        RegDst          <= 1'b1; 
+        Branch          <= 1'b0; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b1;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b1; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        MoveToLo        <= 1'b0; 
+        HiLoSel         <= 1'b0; 
       end
     32'b000000xxxxxxxxxxxxxxx00000000110:    begin   // SRLV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
-        ALUOp       <= 4'b1100;     //need SRL
+        ALUOp       <= 4'b1111;     //need SRL
         RegDst      <= 1'b1; 
         Branch      <= 1'b0; 
         MemWrite    <= 1'b0; 

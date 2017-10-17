@@ -7,7 +7,7 @@
 // Description - 32-Bit wide arithmetic logic unit (ALU).
 //
 // INPUTS:-
-// ALUControl: 4-Bit input control bits to select an ALU operation.
+// ALUControl: 5-Bit input control bits to select an ALU operation.
 // A: 32-Bit input port A.
 // B: 32-Bit input port B.
 //
@@ -37,6 +37,8 @@
 // SRL  | 1100
 // ROTR | 1101
 // SRA  | 1110
+// SLLV | 0101
+// SRLV | 1111
 //
 //
 // NOTE:-less
@@ -55,6 +57,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
     /* Please fill in the implementation here... */
     parameter ADD = 4'b0010, SUB = 4'b0110, AND = 4'b0000, OR = 4'b0001, NOR = 4'b0011, XOR = 4'b0100, SLT = 4'b0111;
     parameter MULT = 4'b1000, SEH = 4'b1001, SEB = 4'b1010, SLL = 4'b1011, SRL = 4'b1100, ROTR = 4'b1101, SRA = 4'b1110;
+    parameter SLLV = 4'b0101, SRLV = 4'b1111; 
     reg [63:0] TempResult;
     reg TempZero;
     
@@ -71,8 +74,10 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             MULT: TempResult = A * B;
             SEH: TempResult = {{16{A[15]}}, A[15:0]};
             SEB: TempResult = {{24{A[7]}}, A[7:0]};
-            SLL: TempResult = A << B;
-            SRL: TempResult = A >> B;
+            SLL: TempResult = A << B[10:6];
+            SRL: TempResult = A >> B[10:6];
+            SLLV: TempResult = A << B; 
+            SRLV: TempResult = A >> B; 
             ROTR:TempResult = {{32{1'b0}}, (A << 32-B) | (A >> B)};
             SRA: TempResult = A >>> B;
             default: TempResult = 64'bX;
