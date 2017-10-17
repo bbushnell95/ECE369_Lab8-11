@@ -39,6 +39,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
 	assign RegWriteOut = RegWriteIn; 
 	assign MemToRegOut = MemToRegIn; 
 	assign DestinationRegOut = DestinationRegIn; 
+	assign BranchTargetAddressOut = BranchTargetAddressIn; 
     assign ALUOut = ALUIn; 
     
     // Branch AND Gate Logic

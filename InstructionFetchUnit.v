@@ -44,7 +44,7 @@ module InstructionFetchUnit(Reset, Clk, PCSrcIn, BranchTargetAddressIn, Instruct
     /* Please fill in the implementation here... */
     input Reset, Clk;
     input PCSrcIn; 
-    input BranchTargetAddressIn; 
+    input [31:0] BranchTargetAddressIn; 
     output [31:0] Instruction;
     output [31:0] PCValueOut;
     

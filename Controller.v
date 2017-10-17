@@ -33,7 +33,29 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     // Decode the Instruction
     always @(Instruction) begin
     
-    case (Instruction)
+    casex (Instruction)
+     32'b00000000000000000000000000000000:    begin   // NOP Command
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 4'b1111;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b0; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        MoveToLo        <= 1'b0; 
+        HiLoSel         <= 1'b0; 
+      end
+    
     /* ARITHMETIC OPS */
      32'b000000xxxxxxxxxxxxxxxxxxxx100000:    begin    // ADD Command
         RegWrite        <= 1'b1; 
@@ -394,7 +416,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToLo <= 1'b0; 
         HiLoSel <= 1'b0; 
       end
-    32'b011111xxxxxxxxxxxxxxxxxxxx100000:    begin   // SEH Command
+    32'b01111100000xxxxxxxxxx11000100000:    begin   // SEH Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
         ALUOp       <= 4'b1001;       //need SEH
@@ -436,7 +458,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToLo <= 1'b0; 
         HiLoSel <= 1'b0; 
       end
-    32'b000000xxxxxxxxxxxxxxxxxxxx000010:    begin   // SRL Command
+    32'b00000000000xxxxxxxxxxxxxxx000010:    begin   // SRL Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
         ALUOp       <= 4'b1100;      //need SRL
@@ -478,7 +500,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToLo <= 1'b0; 
         HiLoSel <= 1'b0; 
       end
-    32'b000000xxxxxxxxxxxxxxxxxxxx000110:    begin   // SRLV Command
+    32'b000000xxxxxxxxxxxxxxx00000000110:    begin   // SRLV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
         ALUOp       <= 4'b1100;     //need SRL
@@ -583,7 +605,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToLo <= 1'b0; 
         HiLoSel <= 1'b0; 
       end     
-    32'b000000xxxxxxxxxxxxxxxxxxxx000110:    begin   // ROTRV Command
+    32'b000000xxxxxxxxxxxxxxx00001000110:    begin   // ROTRV Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
         ALUOp       <= 4'b1101;     //need ROTR
@@ -604,7 +626,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToLo <= 1'b0; 
         HiLoSel <= 1'b0; 
       end
-    32'b000000xxxxxxxxxxxxxxxxxxxx000010:    begin   // ROTR Command
+    32'b00000000001xxxxxxxxxxxxxxx000010:    begin   // ROTR Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b1;
         ALUOp       <= 4'b1101;     //need ROTR
@@ -667,7 +689,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToLo <= 1'b0; 
         HiLoSel <= 1'b0; 
       end    
-    32'b011111xxxxxxxxxxxxxxxxxxxx100000:    begin   // SEB Command
+    32'b01111100000xxxxxxxxxx10000100000:    begin   // SEB Command
         RegWrite    <= 1'b1;
         ALUSrc      <= 1'b0;
         ALUOp       <= 4'b1010;     //need SEB

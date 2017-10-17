@@ -63,6 +63,11 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     input Clk; 
  
     reg [31:0] RegisterBank[31:0];          //32 registers of 32-bit length
+    
+    initial begin
+        RegisterBank[0] <= 32'b0; 
+    
+    end
         
     always @ (posedge Clk)
         begin

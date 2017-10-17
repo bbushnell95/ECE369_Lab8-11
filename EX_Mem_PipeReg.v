@@ -19,7 +19,7 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, B
     output reg MemToRegOut; 
     
     output reg [31:0] BranchTargetAddressOut;
-    output reg [63:0] ALUOut;
+    output reg [31:0] ALUOut;
     output reg ZeroOut;
     output reg [31:0] MemoryWriteDataOut;
     output reg [4:0] DestinationRegOut; 
@@ -32,7 +32,7 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, B
     input MemToRegIn; 
     
     input [31:0] BranchTargetAddressIn;
-    input [63:0] ALUIn;
+    input [31:0] ALUIn;
     input ZeroIn;
     input [31:0] MemoryWriteDataIn; 
     input [4:0] DestinationRegIn; 
