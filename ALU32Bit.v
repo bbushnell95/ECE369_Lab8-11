@@ -28,7 +28,7 @@
 // AND  | 0000
 // OR   | 0001
 // NOR  | 0011
-// XOR  | 0100
+// XNOR | 0100
 // SLT  | 0111
 // MULT | 1000
 // SEH  | 1001
@@ -89,6 +89,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
     
     assign Zero = TempZero;
     assign ALUResult = TempResult;
+    assign 
 
 endmodule
 
