@@ -23,7 +23,7 @@
 module DataPath_tb();
 
     reg Clk, Reset;  
-    //reg [31:0] WriteData;
+    wire [31:0] WriteData;
     
     DataPath u0(
        .Clk(Clk), 
