@@ -29,6 +29,27 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
 	
     input [31:0] Instruction; 
     
+    initial begin
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 4'bxxxx;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b0; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        MoveToLo        <= 1'b0; 
+        HiLoSel         <= 1'b0; 
+    end
 
     // Decode the Instruction
     always @(Instruction) begin

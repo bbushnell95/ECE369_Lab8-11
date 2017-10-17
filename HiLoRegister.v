@@ -25,6 +25,10 @@ module HiLoRegister(Clk, In, Reset,Out);
     
     output reg [31:0] Out;
     
+    initial begin
+        Out <= 32'b0;
+    end
+    
     always@(posedge Clk)begin
         if(Reset == 1'b1) Out<=32'b0;
         else Out <= In;
