@@ -8,12 +8,13 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, ALUOut, DataMemOut, DestinationRegOut);
+module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
     output MemToRegOut; 
     output PCSrcOut;
+    output [31:0] BranchTargetAddressOut;
     output [31:0] ALUOut;
     output [31:0] DataMemOut;
     output [4:0] DestinationRegOut; 
