@@ -8,12 +8,12 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut);	
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut);	
 	/* Control Signals*/
     output BranchOut; 
     output MemReadOut; 
     output MemWriteOut; 
-    output RegWriteOut; 
+    output reg RegWriteOut; 
     output MemToRegOut; 
         
     output [31:0] BranchTargetAddressOut;			//this is pcvalue after adding and shifting
@@ -38,6 +38,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     input ZeroALUSrc2In;     
     input SwapIn; 
     input ALUHiLoSelectIn; 
+    input MOVNIn; 
+    input MOVZIn; 
     
 	input [31:0] PCValueIn; 
     input [31:0] ReadData1In;
@@ -77,12 +79,22 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign BranchOut = BranchIn; 
     assign MemReadOut = MemReadIn; 
     assign MemWriteOut = MemWriteIn; 
-    assign RegWriteOut = RegWriteIn; 
+   // assign RegWriteOut = RegWriteIn; 
     assign MemToRegOut = MemToRegIn; 
     assign MemoryWriteDataOut = ReadData2In; 
-//    assign HIRegOutput = 
-//    assign LORegOutput = 
-    //assign ALUOut = ALUResult[31:0];
+    
+    always @(ReadData2In or RegWriteIn) begin
+        if ((MOVZIn == 1) && (ReadData2In == 0) && (RegWriteIn == 1)) begin
+            RegWriteOut <= 1; 
+        end
+        if ((MOVNIn == 1) && (ReadData2In != 0) && (RegWriteIn == 1)) begin
+            RegWriteOut <= 1; 
+        end
+     end
+     
+        
+        
+
     
     // Need to check this adder and shifter combo
     assign BranchTargetAddressOut = (SignExtendOffsetIn << 2) + PCValueIn; 

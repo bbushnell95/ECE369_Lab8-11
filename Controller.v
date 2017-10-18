@@ -8,7 +8,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, RegDst, ALUOp, ALUSrc, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, ZeroExtend, AltALUSrc1, ZeroALUSrc1, ZeroALUSrc2, Swap, ALUHiLoSelect);
+module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, RegDst, ALUOp, ALUSrc, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, ZeroExtend, AltALUSrc1, ZeroALUSrc1, ZeroALUSrc2, Swap, ALUHiLoSelect, MOVN, MOVZ);
 	
     /* Control Signals*/
     output reg Branch; 
@@ -26,10 +26,16 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
 	output reg ZeroALUSrc2;
 	output reg Swap; 
 	output reg ALUHiLoSelect; 
+	output reg MOVN;
+	output reg MOVZ;
 
 	
     input [31:0] Instruction; 
     
+    initial begin
+        MOVN <= 1'b0;
+        MOVZ <= 1'b0;
+    end 
 
     // Decode the Instruction
     always @(Instruction) begin
@@ -610,6 +616,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToHi        <= 1'b0; 
         MoveToLo        <= 1'b0; 
         HiLoSel         <= 1'b0; 
+        MOVN            <= 1'b1;
+        MOVZ            <= 1'b0;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx001010:    begin   // MOVZ Command
         RegWrite        <= 1'b1;
@@ -632,6 +640,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToHi        <= 1'b0; 
         MoveToLo        <= 1'b0; 
         HiLoSel         <= 1'b0; 
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b1;
       end     
     32'b000000xxxxxxxxxxxxxxx00001000110:    begin   // ROTRV Command
         RegWrite        <= 1'b1;
