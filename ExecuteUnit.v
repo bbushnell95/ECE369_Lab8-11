@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, SwapIn, ALUHiLoSelectIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut);	
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut);	
 	/* Control Signals*/
     output BranchOut; 
     output MemReadOut; 
@@ -19,7 +19,6 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     output [31:0] BranchTargetAddressOut;			//this is pcvalue after adding and shifting
     output [31:0] ExecuteDataOut;                   //output to the piperegister  
 	output ZeroOut; 
-//	output [31:0] RegisterWriteDataOut; 
     output [4:0] DestinationRegOut; 
     output [31:0] MemoryWriteDataOut;
   
@@ -35,7 +34,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     input ALUSrcIn;
     input HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel;
     input AltALUSrc1In; 
-    input ZeroALUSrc1In; 
+    input ZeroALUSrc1In;
+    input ZeroALUSrc2In;     
     input SwapIn; 
     input ALUHiLoSelectIn; 
     
@@ -48,7 +48,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 
     wire [31:0] ALUInputData1;              // First Input of ALU
     wire [31:0] ALUInputData2;              // Second Input of ALU
-    wire [31:0] AltALUInputData;
+    wire [31:0] AltALUInput1Data;
+    wire [31:0] AltALUInput2Data;    
     wire [63:0] ALUResult;
     wire [31:0] SwapperWire1;
     wire [31:0] SwapperWire2;  
@@ -56,10 +57,12 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 
 	
     // Included Modules
-	Mux32Bit2To1 AltSrcMux(SwapperWire1, ReadData1In, AltALUInputData, AltALUSrc1In); 
-	Mux32Bit2To1 Mux32Bit2To1_2(SwapperWire2, ReadData2In, SignExtendOffsetIn, ALUSrcIn); 
-    Mux32Bit2To1 ZeroSrcMux(AltALUInputData, ReadData2In, 32'b0, ZeroALUSrc1In); 
+	Mux32Bit2To1 AltSrcMux(SwapperWire1, ReadData1In, AltALUInput1Data, AltALUSrc1In); 
+	Mux32Bit2To1 Mux32Bit2To1_2(AltALUInput2Data, ReadData2In, SignExtendOffsetIn, ALUSrcIn); 
+    Mux32Bit2To1 ZeroSrc1Mux(AltALUInput1Data, ReadData2In, 32'b0, ZeroALUSrc1In); 
+    Mux32Bit2To1 ZeroSrc2Mux(SwapperWire2, AltALUInput2Data, 32'b0, ZeroALUSrc2In);  
     Mux32Bit2To1 Mux32Bit2To1_4(DestinationRegOut, RTFieldIn, RDFieldIn, RegDstIn); 
+    
     
     // Swap Muxes
     Mux32Bit2To1 SwapMux_1(ALUInputData1, SwapperWire1, SwapperWire2, SwapIn);  
