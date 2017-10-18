@@ -30,7 +30,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     input RegWriteIn; 
     input MemToRegIn;
     input RegDstIn; 
-    input [3:0] ALUOpIn; 
+    input [4:0] ALUOpIn; 
     input ALUSrcIn;
     input HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel;
     input AltALUSrc1In; 
@@ -79,17 +79,19 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign BranchOut = BranchIn; 
     assign MemReadOut = MemReadIn; 
     assign MemWriteOut = MemWriteIn; 
-   // assign RegWriteOut = RegWriteIn; 
+    //assign RegWriteOut = RegWriteIn; 
     assign MemToRegOut = MemToRegIn; 
     assign MemoryWriteDataOut = ReadData2In; 
     
+    
     always @(ReadData2In or RegWriteIn) begin
-        if ((MOVZIn == 1) && (ReadData2In == 0) && (RegWriteIn == 1)) begin
+        if ((MOVZIn == 1) && (ReadData2In == 0)) begin
+            RegWriteOut <= 1; 
+        end 
+        else if ((MOVNIn == 1) && (ReadData2In != 0)) begin
             RegWriteOut <= 1; 
         end
-        if ((MOVNIn == 1) && (ReadData2In != 0) && (RegWriteIn == 1)) begin
-            RegWriteOut <= 1; 
-        end
+        else RegWriteOut <= RegWriteIn; 
      end
      
         

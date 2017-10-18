@@ -23,22 +23,24 @@
 // should determine the function of the ALU based on the table below:-
 // Op   | 'ALUControl' value
 // ==========================
-// ADD  | 0010
-// SUB  | 0110
-// AND  | 0000
-// OR   | 0001
-// NOR  | 0011
-// XNOR | 0100
-// SLT  | 0111
-// MULT | 1000
-// SEH  | 1001
-// SEB  | 1010
-// SLL  | 1011
-// SRL  | 1100
-// ROTR | 1101
-// SRA  | 1110
-// SLLV | 0101
-// SRLV | 1111
+// ADD  | 00010
+// SUB  | 00110
+// AND  | 00000
+// OR   | 00001
+// NOR  | 00011
+// XNOR | 00100
+// SLT  | 00111
+// MULT | 01000
+// SEH  | 01001
+// SEB  | 01010
+// SLL  | 01011
+// SRL  | 01100
+// ROTR | 01101
+// SRA  | 01110
+// SLLV | 00101
+// SRLV | 01111
+// ROTRV| 10001
+// 
 //
 //
 // NOTE:-less
@@ -48,16 +50,16 @@
 
 module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
 
-	input [3:0] ALUControl; // control bits for ALU operation
+	input [4:0] ALUControl; // control bits for ALU operation
 	input [31:0] A, B;	    // inputs
 
 	output [63:0] ALUResult;	// answer
 	output Zero;	    // Zero=1 if ALUResult == 0
     
     /* Please fill in the implementation here... */
-    parameter ADD = 4'b0010, SUB = 4'b0110, AND = 4'b0000, OR = 4'b0001, NOR = 4'b0011, XOR = 4'b0100, SLT = 4'b0111;
-    parameter MULT = 4'b1000, SEH = 4'b1001, SEB = 4'b1010, SLL = 4'b1011, SRL = 4'b1100, ROTR = 4'b1101, SRA = 4'b1110;
-    parameter SLLV = 4'b0101, SRLV = 4'b1111; 
+    parameter ADD = 5'b00010, SUB = 5'b00110, AND = 5'b00000, OR = 5'b00001, NOR = 5'b00011, XOR = 5'b00100, SLT = 5'b00111;
+    parameter MULT = 5'b01000, SEH = 5'b01001, SEB = 5'b01010, SLL = 5'b01011, SRL = 5'b01100, ROTR = 5'b01101, SRA = 5'b01110;
+    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000; 
     reg [63:0] TempResult;
     reg TempZero;
     
@@ -72,13 +74,14 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             XOR: TempResult = A ^ B;
             SLT: TempResult = A < B;
             MULT: TempResult = A * B;
-            SEH: TempResult = {{16{A[15]}}, A[15:0]};
-            SEB: TempResult = {{24{A[7]}}, A[7:0]};
+            SEH: TempResult = {{16{B[15]}}, B[15:0]};
+            SEB: TempResult = {{24{B[7]}}, B[7:0]};
             SLL: TempResult = A << B[10:6];
             SRL: TempResult = A >> B[10:6];
             SLLV: TempResult = A << B; 
             SRLV: TempResult = A >> B; 
-            ROTR:TempResult = {{32{1'b0}}, (A << 32-B) | (A >> B)};
+            ROTR: TempResult = {{32{1'b0}}, (A << 32-B[10:6]) | (A >> B[10:6])};
+            ROTRV: TempResult = {{32{1'b0}}, (A << 32-B) | (A >> B)};
             SRA: TempResult = A >>> B;
             default: TempResult = 64'bX;
         endcase

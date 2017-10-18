@@ -43,7 +43,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     assign ALUOut = ALUIn; 
     
     // Branch AND Gate Logic
-    assign PCSrcOut = ZeroIn & BranchIn; 
+    assign PCSrcOut = (ZeroIn & BranchIn); 
     
 endmodule
 

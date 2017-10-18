@@ -18,7 +18,7 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     output reg RegWriteOut; 
     output reg MemToRegOut;
     output reg RegDstOut; 
-    output reg [3:0] ALUOpOut; 
+    output reg [4:0] ALUOpOut; 
     output reg ALUSrcOut;
     output reg HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut;
     output reg AltALUSrc1Out; 
@@ -28,7 +28,6 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     output reg ALUHiLoSelectOut; 
     output reg MOVNOut; 
     output reg MOVZOut; 
-    
     
     output reg [31:0] PCValueOut;
     output reg [31:0] ReadData1Out;
@@ -44,7 +43,7 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     input RegWriteIn; 
     input MemToRegIn; 
     input RegDstIn; 
-    input [3:0] ALUOpIn; 
+    input [4:0] ALUOpIn; 
     input ALUSrcIn;
     input HiLoALUControlIn, AddToHiIn, AddToLoIn, MoveToHiIn, MoveToLoIn, HiLoSelIn;
     input AltALUSrc1In; 

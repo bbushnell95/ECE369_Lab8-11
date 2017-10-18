@@ -24,7 +24,7 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output RegWriteOut; 
     output MemToRegOut; 
     output RegDstOut; 
-    output [3:0] ALUOpOut; 
+    output [4:0] ALUOpOut; 
     output ALUSrcOut;
     output HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut;
     output AltALUSrc1Out; 
