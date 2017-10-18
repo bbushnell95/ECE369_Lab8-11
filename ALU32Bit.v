@@ -51,17 +51,18 @@
 module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
 
 	input [4:0] ALUControl; // control bits for ALU operation
-	input [31:0] A, B;	    // inputs
+	input signed [31:0] A, B;	    // inputs
 
-	output [63:0] ALUResult;	// answer
+	output signed [63:0] ALUResult;	// answer
 	output Zero;	    // Zero=1 if ALUResult == 0
     
     /* Please fill in the implementation here... */
     parameter ADD = 5'b00010, SUB = 5'b00110, AND = 5'b00000, OR = 5'b00001, NOR = 5'b00011, XOR = 5'b00100, SLT = 5'b00111;
     parameter MULT = 5'b01000, SEH = 5'b01001, SEB = 5'b01010, SLL = 5'b01011, SRL = 5'b01100, ROTR = 5'b01101, SRA = 5'b01110;
-    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000; 
-    reg [63:0] TempResult;
+    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000, MULTV = 5'b10001; 
+    reg signed [63:0] TempResult;
     reg TempZero;
+    reg [31:0] A_Unsigned, B_Unsigned;
     
     always@(ALUControl, A, B)begin
         TempZero <= 0;
@@ -74,6 +75,11 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             XOR: TempResult = A ^ B;
             SLT: TempResult = A < B;
             MULT: TempResult = A * B;
+            MULTV: begin
+                A_Unsigned = A;
+                B_Unsigned = B;
+                TempResult = A_Unsigned * B_Unsigned;
+            end
             SEH: TempResult = {{16{B[15]}}, B[15:0]};
             SEB: TempResult = {{24{B[7]}}, B[7:0]};
             SLL: TempResult = A << B[10:6];

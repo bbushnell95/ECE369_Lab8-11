@@ -247,7 +247,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
      32'b000000xxxxxxxxxxxxxxxxxxxx011001:    begin   // MULTU Command
         RegWrite        <= 1'b0;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 5'b01000;
+        ALUOp           <= 5'b10001;
         RegDst          <= 1'b0; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
