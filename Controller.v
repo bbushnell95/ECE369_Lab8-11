@@ -564,30 +564,31 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         HiLoSel <= 1'b0; 
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx001011:    begin   // MOVN Command
-        RegWrite    <= 1'b1;
-        ALUSrc      <= 1'b0;
-        ALUOp       <= 4'b0100;     //need XOR
-        RegDst      <= 1'b1; 
-        Branch      <= 1'b0; 
-        MemWrite    <= 1'b0; 
-        MemRead     <= 1'b0; 
-        ZeroExtend  <= 1'b0; 
-        MemToReg    <= 1'b1;
-        AltALUSrc1  <= 1'b1; 
-        ZeroALUSrc1 <= 1'b1; 
-        Swap        <= 1'b0; 
-        ALUHiLoSelect <= 1'b0; 
-        HiLoALUControl <= 1'b0; 
-        AddToHi <= 1'b0; 
-        AddToLo <= 1'b0; 
-        MoveToHi <= 1'b0; 
-        MoveToLo <= 1'b0; 
-        HiLoSel <= 1'b0; 
+        RegWrite        <= 1'b1;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 4'b0010;     // need ADD
+        RegDst          <= 1'b1; 
+        Branch          <= 1'b0; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b1;
+        AltALUSrc1      <= 1'b1; 
+        ZeroALUSrc1     <= 1'b1; 
+        ZeroALUSrc2     <= 1'b1;
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        MoveToLo        <= 1'b0; 
+        HiLoSel         <= 1'b0; 
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx001010:    begin   // MOVZ Command
         RegWrite        <= 1'b1;
         ALUSrc          <= 1'b0;
-        ALUOp           <= 4'b0100;     //need XOR
+        ALUOp           <= 4'b0010;     // need ADD
         RegDst          <= 1'b1; 
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
