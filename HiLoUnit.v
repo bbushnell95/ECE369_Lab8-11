@@ -21,18 +21,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module HiLoUnit(Upper, Lower, Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, HiLoOut);
+module HiLoUnit(Upper, Lower, Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, HiLoOut, HIRegOutput, LORegOutput);
     input [31:0] Upper, Lower;
     input Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel;
     
-    output [31:0] HiLoOut;
+    output [31:0] HiLoOut, HIRegOutput, LORegOutput;
     
     wire [31:0] HiMux1Out, LoMux1Out, HiMux2Out, LoMux2Out, LoALUOut, HiRegOut, LoRegOut;
     wire [63:0] HiLoALUOut;
     
     HiLoALU HiLoALU(HiLoALUControl, {HiRegOut, LoRegOut}, {Upper, Lower}, HiLoALUOut);
-    //HiLoALU HiALU(HiLoALUControl, HiRegOut, Upper, HiALUOut);
-    //HiLoALU LoALU(HiLoALUControl, LoRegOut, Lower, LoALUOut);
     Mux32Bit2To1 HiMux1(HiMux1Out, HiRegOut, HiLoALUOut[63:32], AddToHi);
     Mux32Bit2To1 LoMux1(LoMux1Out, LoRegOut, HiLoALUOut[31:0], AddToLo);
     Mux32Bit2To1 HiMux2(HiMux2Out, HiMux1Out, Upper, MoveToHi);
@@ -40,5 +38,8 @@ module HiLoUnit(Upper, Lower, Clk, Reset, HiLoALUControl, AddToHi, AddToLo, Move
     HiLoRegister HiReg(Clk, HiMux2Out, Reset, HiRegOut);
     HiLoRegister LoReg(Clk, LoMux2Out, Reset, LoRegOut);
     Mux32Bit2To1 HiLoMux(HiLoOut, LoRegOut, HiRegOut, HiLoSel);
+    
+    assign HIRegOutput = HiRegOut; 
+    assign LORegOutput = LoRegOut;
 
 endmodule

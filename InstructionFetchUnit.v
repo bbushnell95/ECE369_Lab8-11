@@ -39,7 +39,7 @@
 // which generates a continuous clock pulse into the module.
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionFetchUnit(Reset, Clk, PCSrcIn, BranchTargetAddressIn, Instruction, PCValueOut );
+module InstructionFetchUnit(Reset, Clk, PCSrcIn, BranchTargetAddressIn, Instruction, PCValueOut);
 
     /* Please fill in the implementation here... */
     input Reset, Clk;
@@ -56,7 +56,16 @@ module InstructionFetchUnit(Reset, Clk, PCSrcIn, BranchTargetAddressIn, Instruct
     InstructionMemory InstuctionMemory_1(programCount, Instruction);
     Mux32Bit2To1 Mux32Bit2To1_1(nextPC, addrOut, BranchTargetAddressIn, PCSrcIn);
     
+//    initial begin
+//        CurrentPCOut <= 32'b0; 
+//    end
+    
+//    always @(programCount) begin
+//        CurrentPCOut <= programCount; 
+//    end
+    
     assign PCValueOut = addrOut; 
+//    assign CurrentPCOut = programCount;
 
 endmodule
 

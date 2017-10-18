@@ -39,8 +39,9 @@
 // SRA  | 01110
 // SLLV | 00101
 // SRLV | 01111
-// ROTRV| 10001
-// 
+// ROTRV| 10000
+// MULTU| 10001
+// SLTU | 10010
 //
 //
 // NOTE:-less
@@ -59,7 +60,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
     /* Please fill in the implementation here... */
     parameter ADD = 5'b00010, SUB = 5'b00110, AND = 5'b00000, OR = 5'b00001, NOR = 5'b00011, XOR = 5'b00100, SLT = 5'b00111;
     parameter MULT = 5'b01000, SEH = 5'b01001, SEB = 5'b01010, SLL = 5'b01011, SRL = 5'b01100, ROTR = 5'b01101, SRA = 5'b01110;
-    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000, MULTV = 5'b10001; 
+    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000, MULTU = 5'b10001, SLTU = 5'b10010; 
     reg signed [63:0] TempResult;
     reg TempZero;
     reg [31:0] A_Unsigned, B_Unsigned;
@@ -74,8 +75,13 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             NOR: TempResult = ~(A | B);
             XOR: TempResult = A ^ B;
             SLT: TempResult = A < B;
+            SLTU: begin
+                A_Unsigned = A;
+                B_Unsigned = B;
+                TempResult = A_Unsigned < B_Unsigned;
+            end
             MULT: TempResult = A * B;
-            MULTV: begin
+            MULTU: begin
                 A_Unsigned = A;
                 B_Unsigned = B;
                 TempResult = A_Unsigned * B_Unsigned;

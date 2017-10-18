@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut);	
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut, EXU_HIRegOutput, EXU_LORegOutput);	
 	/* Control Signals*/
     output BranchOut; 
     output MemReadOut; 
@@ -21,6 +21,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
 	output ZeroOut; 
     output [4:0] DestinationRegOut; 
     output [31:0] MemoryWriteDataOut;
+    output [31:0] EXU_HIRegOutput, EXU_LORegOutput; 
   
 	/* Control Signals */
     input Reset, Clk;
@@ -56,6 +57,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     wire [31:0] SwapperWire1;
     wire [31:0] SwapperWire2;  
     wire [31:0] HiLoOut; 
+    wire [31:0] HIRegOutput, LORegOutput; 
 
 	
     // Included Modules
@@ -72,7 +74,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     
     // ALU
     ALU32Bit ALU32Bit_1(ALUOpIn, ALUInputData1, ALUInputData2, ALUResult, ZeroOut);
-    HiLoUnit HiLoUnit_1(ALUResult[63:32], ALUResult[31:0], Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, HiLoOut);
+    HiLoUnit HiLoUnit_1(ALUResult[63:32], ALUResult[31:0], Clk, Reset, HiLoALUControl, AddToHi, AddToLo, MoveToHi, MoveToLo, HiLoSel, HiLoOut, HIRegOutput, LORegOutput);
     Mux32Bit2To1 DataOutMux(ExecuteDataOut, ALUResult[31:0], HiLoOut, ALUHiLoSelectIn);     
     
     // Assign Statements
@@ -82,9 +84,11 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     //assign RegWriteOut = RegWriteIn; 
     assign MemToRegOut = MemToRegIn; 
     assign MemoryWriteDataOut = ReadData2In; 
+    assign EXU_HIRegOutput = HIRegOutput;
+    assign EXU_LORegOutput = LORegOutput;
     
     
-    always @(ReadData2In or RegWriteIn) begin
+    always @(ReadData2In or RegWriteIn or MOVZIn) begin
         if ((MOVZIn == 1) && (ReadData2In == 0)) begin
             RegWriteOut <= 1; 
         end 
