@@ -53,7 +53,7 @@ module InstructionFetchUnit(Reset, Clk, PCSrcIn, BranchTargetAddressIn, Instruct
     // Included Modules
     PCAdder PCAdder_1(programCount, addrOut);
     ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Clk);
-    InstructionMemory InstuctionMemeory_1(programCount, Instruction);
+    InstructionMemory InstuctionMemory_1(programCount, Instruction);
     Mux32Bit2To1 Mux32Bit2To1_1(nextPC, addrOut, BranchTargetAddressIn, PCSrcIn);
     
     assign PCValueOut = addrOut; 

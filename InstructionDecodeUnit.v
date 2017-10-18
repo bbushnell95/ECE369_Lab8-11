@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, SwapOut, ALUHiLoSelectOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
+module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
 
     input Reset, Clk;
     input [31:0] Instruction;
@@ -24,13 +24,16 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output RegWriteOut; 
     output MemToRegOut; 
     output RegDstOut; 
-    output [3:0] ALUOpOut; 
+    output [4:0] ALUOpOut; 
     output ALUSrcOut;
     output HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut;
     output AltALUSrc1Out; 
     output ZeroALUSrc1Out;
+    output ZeroALUSrc2Out; 
     output SwapOut;
     output ALUHiLoSelectOut; 
+    output MOVNOut; 
+    output MOVZOut; 
     
     output [31:0] PCValueOut; 
     output [31:0] ReadData1Out;
@@ -44,7 +47,7 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     // Included Modules
     RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, ReadData1Out, ReadData2Out);
     SignExtension SignExtension_1(Instruction[15:0], ZeroExtend, SignExtendOffsetOut);
-    Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, SwapOut, ALUHiLoSelectOut);
+    Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, MoveToLoOut, HiLoSelOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut);
     
     // Assign Statements
     assign RTFieldOut = Instruction[20:16];
