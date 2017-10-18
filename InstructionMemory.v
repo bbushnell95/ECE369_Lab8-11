@@ -44,13 +44,9 @@ module InstructionMemory(Address, Instruction);
     
     
         /* Please fill in the implementation here */
-    integer i, DecimalEQ;
-<<<<<<< HEAD
+    integer i, DecimalEQ
     reg [31:0] memory[0:395];       // All instructions
 
-=======
-    reg [31:0] memory[0:394];       // All instructions
->>>>>>> eb59245f8af8b11403d661b7aa19f6f3e159e6e8
     
     initial begin                               // Initialize the InstructionBank with arbitrary values
         memory[0] = 32'b00100000000100000000000000000001;	//	main:	addi	$s0, $zero, 1
