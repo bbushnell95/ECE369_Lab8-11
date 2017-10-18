@@ -821,7 +821,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MoveToHi        <= 1'b0; 
         MoveToLo        <= 1'b0; 
         HiLoSel         <= 1'b0; 
-      end      
+      end
     endcase
 	
 	end
