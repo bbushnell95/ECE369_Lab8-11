@@ -44,7 +44,7 @@ module InstructionMemory(Address, Instruction);
     
     
         /* Please fill in the implementation here */
-    integer i, DecimalEQ
+    integer i, DecimalEQ;
     reg [31:0] memory[0:395];       // All instructions
 
     
