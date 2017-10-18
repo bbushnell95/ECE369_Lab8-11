@@ -88,8 +88,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
     end
     
     assign Zero = TempZero;
-    assign ALUResult = TempResult;
-    assign 
+    assign ALUResult = TempResult; 
 
 endmodule
 
