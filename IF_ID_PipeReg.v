@@ -18,7 +18,7 @@ module IF_ID_PipeReg(PCValueIn, InstructionIn, Clk, PCValueOut, InstructionOut);
     input [31:0] InstructionIn;
     input Clk; 
         
-    always @ (negedge Clk)
+    always @ (posedge Clk)
         begin
             PCValueOut <= PCValueIn; 
             InstructionOut <= InstructionIn; 

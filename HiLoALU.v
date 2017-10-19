@@ -25,12 +25,12 @@
 
 
 module HiLoALU(ALUOp, A, B, Result);
-    input [31:0] A, B;
+    input [63:0] A, B;
     input ALUOp;
     
-    output [31:0] Result;
+    output [63:0] Result;
     
-    reg [31:0] tempResult;
+    reg [63:0] tempResult;
     
     always@(A, B, ALUOp)begin
         if(ALUOp == 1'b0) tempResult <= A + B;

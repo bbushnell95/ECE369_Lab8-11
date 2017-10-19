@@ -15,7 +15,7 @@ module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, ALUIn, DataMemIn, DestinationRegIn
     output reg RegWriteOut; 
     output reg MemToRegOut;
     
-    output reg [63:0] ALUOut;
+    output reg [31:0] ALUOut;
     output reg [31:0] DataMemOut;
     output reg [4:0] DestinationRegOut; 
     
@@ -23,12 +23,12 @@ module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, ALUIn, DataMemIn, DestinationRegIn
     input RegWriteIn; 
     input MemToRegIn; 
     
-    input [63:0] ALUIn;
+    input [31:0] ALUIn;
     input [31:0] DataMemIn;
     input [4:0] DestinationRegIn; 
     input Clk; 
         
-    always @ (negedge Clk)
+    always @ (posedge Clk)
         begin
         RegWriteOut <= RegWriteIn; 
         MemToRegOut <= MemToRegIn;

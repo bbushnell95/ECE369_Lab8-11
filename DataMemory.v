@@ -48,7 +48,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
     /* Please fill in the implementation here */
     reg [31:0] Memory[0:1023];
     
-    always@(posedge Clk, MemRead)begin
+    always@(posedge Clk)begin   //, MemRead
         //If MemWrite is 1, write to the memory address
         if(MemWrite == 1'b1) Memory[Address[11:2]] = WriteData;
         

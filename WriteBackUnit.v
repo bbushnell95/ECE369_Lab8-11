@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module WriteBackUnit(Clk, RegWriteIn, MemToRegIn, ALUIn, MemoryReadDataIn, DestinationRegIn, RegWriteOut, RegWriteDataOut, DestinationRegOut);
+module WriteBackUnit(RegWriteIn, MemToRegIn, ALUIn, MemoryReadDataIn, DestinationRegIn, RegWriteOut, RegWriteDataOut, DestinationRegOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
@@ -17,11 +17,10 @@ module WriteBackUnit(Clk, RegWriteIn, MemToRegIn, ALUIn, MemoryReadDataIn, Desti
     output [4:0] DestinationRegOut; 
 	
 	/* Control Signals*/
-	input Clk; 
     input RegWriteIn; 
     input MemToRegIn; 
     /* Data Signals*/
-    input [63:0] ALUIn;
+    input [31:0] ALUIn;
     input [31:0] MemoryReadDataIn; 
     input [4:0] DestinationRegIn; 
     
