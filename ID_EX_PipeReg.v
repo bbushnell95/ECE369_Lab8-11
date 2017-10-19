@@ -9,7 +9,7 @@
 // Description - Implements a register between ID and EX stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, HiLoALUControlIn, AddToHiIn, AddToLoIn, MoveToHiIn, HiLoSelIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, StraightToHiIn, StraightToLoIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
+module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, HiLoALUControlIn, AddToHiIn, AddToLoIn, MoveToHiIn, HiLoSelIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, StraightToHiIn, StraightToLoIn, LoadStoreByteIn, LoadStoreHalfIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
 
 	/* Control Signals*/
     output reg BranchOut; 
@@ -29,7 +29,9 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     output reg MOVNOut; 
     output reg MOVZOut; 
     output reg StraightToHiOut; 
-    output reg StraightToLoOut; 
+    output reg StraightToLoOut;
+    output reg LoadStoreByteOut;
+    output reg LoadStoreHalfOut; 
     
     output reg [31:0] PCValueOut;
     output reg [31:0] ReadData1Out;
@@ -56,7 +58,9 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
     input MOVNIn; 
     input MOVZIn; 
     input StraightToHiIn; 
-    input StraightToLoIn; 
+    input StraightToLoIn;
+    input LoadStoreByteIn;
+    input LoadStoreHalfIn; 
     
     input [31:0] PCValueIn;
     input [31:0] ReadData1In;
@@ -89,7 +93,9 @@ module ID_EX_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, Re
         MOVNOut <= MOVNIn; 
         MOVZOut <= MOVZIn; 
         StraightToHiOut <= StraightToHiIn; 
-        StraightToLoOut <= StraightToLoIn; 
+        StraightToLoOut <= StraightToLoIn;
+        LoadStoreByteOut <= LoadStoreByteIn;
+        LoadStoreHalfOut <= LoadStoreHalfIn; 
         
         PCValueOut <= PCValueIn; 
         ReadData1Out <= ReadData1In;

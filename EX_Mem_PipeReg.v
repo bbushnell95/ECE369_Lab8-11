@@ -9,14 +9,16 @@
 // Description - Implements a register between EX and Mem stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, MemoryWriteDataOut, DestinationRegOut);
+module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, MemoryWriteDataOut, DestinationRegOut, LoadStoreByteOut, LoadStoreHalfOut);
 
 	/* Control Signals*/
     output reg BranchOut; 
     output reg MemReadOut; 
     output reg MemWriteOut; 
     output reg RegWriteOut; 
-    output reg MemToRegOut; 
+    output reg MemToRegOut;
+    output reg LoadStoreByteOut;
+    output reg LoadStoreHalfOut; 
     
     output reg [31:0] BranchTargetAddressOut;
     output reg [31:0] ALUOut;
@@ -29,7 +31,9 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, B
     input MemReadIn; 
     input MemWriteIn; 
     input RegWriteIn;
-    input MemToRegIn; 
+    input MemToRegIn;
+    input LoadStoreByteIn;
+    input LoadStoreHalfIn; 
     
     input [31:0] BranchTargetAddressIn;
     input [31:0] ALUIn;
@@ -44,7 +48,9 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, B
             MemReadOut <= MemReadIn; 
             MemWriteOut <= MemWriteIn; 
             RegWriteOut <= RegWriteIn; 
-            MemToRegOut <= MemToRegIn; 
+            MemToRegOut <= MemToRegIn;
+            LoadStoreByteOut <= LoadStoreByteIn;
+            LoadStoreHalfOut <= LoadStoreHalfIn; 
         
             BranchTargetAddressOut <= BranchTargetAddressIn;
             ALUOut <= ALUIn;

@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut);
+module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
@@ -25,7 +25,9 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     input MemReadIn; 
     input MemWriteIn; 
     input RegWriteIn; 
-    input MemToRegIn; 
+    input MemToRegIn;
+    input LoadStoreByteIn;
+    input LoadStoreHalfIn; 
     
     input [31:0] BranchTargetAddressIn;
     input [31:0] ALUIn;
@@ -33,7 +35,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     input [31:0] MemoryWriteDataIn; 
     input [4:0] DestinationRegIn; 
     
-	DataMemory DataMemory_1(ALUIn[31:0], MemoryWriteDataIn, Clk, MemWriteIn, MemReadIn, DataMemOut);
+	DataMemory DataMemory_1(ALUIn[31:0], MemoryWriteDataIn, Clk, MemWriteIn, MemReadIn, DataMemOut, LoadStoreByteIn, LoadStoreHalfIn);
 	
 	// Assign Statements
 	assign RegWriteOut = RegWriteIn; 
