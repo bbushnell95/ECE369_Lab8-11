@@ -50,6 +50,21 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStor
     /* Please fill in the implementation here */
     reg [31:0] Memory[0:1023];
     
+    integer i;
+    
+    initial begin
+        Memory[0] <= 32'b0;
+        Memory[1] <= 32'h00000001;
+        Memory[2] <= 'h00000002;
+        Memory[3] <= 'h00000003;
+        Memory[4] <= 'h00000004;
+        Memory[5] <= 'hFFFFFFFF;
+        
+        for(i=6; i < 1024; i = i + 1) begin
+           Memory[i] <= 32'b0;    
+        end
+    end
+    
     always@(posedge Clk, posedge MemRead)begin   //, MemRead
         //If MemWrite is 1, write to the memory address
         if(MemWrite == 1'b1) begin
