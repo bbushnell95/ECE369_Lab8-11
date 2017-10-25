@@ -8,8 +8,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, RegDst, ALUOp, ALUSrc, HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel, ZeroExtend, AltALUSrc1, ZeroALUSrc1, ZeroALUSrc2, Swap, ALUHiLoSelect, MOVN, MOVZ, StraightToHi, StraightToLo, LoadStoreByte, LoadStoreHalf);
-	
+module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, RegDst, ALUOp, ALUSrc, HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel, ZeroExtend, AltALUSrc1, ZeroALUSrc1, ZeroALUSrc2, Swap, ALUHiLoSelect, MOVN, MOVZ, StraightToHi, StraightToLo, LoadStoreByte, LoadStoreHalf, NotZero, Jump);
+    
     /* Control Signals*/
     output reg Branch; 
     output reg MemRead; 
@@ -20,20 +20,22 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     output reg [4:0] ALUOp; 
     output reg ALUSrc;
     output reg HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel;
-	output reg ZeroExtend; 
-	output reg AltALUSrc1;
-	output reg ZeroALUSrc1;
-	output reg ZeroALUSrc2;
-	output reg Swap; 
-	output reg ALUHiLoSelect; 
-	output reg MOVN;
-	output reg MOVZ;
-	output reg StraightToHi; 
+    output reg ZeroExtend; 
+    output reg AltALUSrc1;
+    output reg ZeroALUSrc1;
+    output reg ZeroALUSrc2;
+    output reg Swap; 
+    output reg ALUHiLoSelect; 
+    output reg MOVN;
+    output reg MOVZ;
+    output reg StraightToHi; 
     output reg StraightToLo;
     output reg LoadStoreByte;
-    output reg LoadStoreHalf; 
+    output reg LoadStoreHalf;
+    output reg NotZero;
+    output reg [1:0] Jump; 
 
-	
+    
     input [31:0] Instruction; 
     
     initial begin
@@ -61,6 +63,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
     end
 
 
@@ -94,6 +98,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     
     /* ARITHMETIC OPS */
@@ -123,6 +129,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b001001xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // ADDIU Command
         RegWrite        <= 1'b1; 
@@ -150,6 +158,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b000000xxxxxxxxxxxxxxxxxxxx100001:    begin   // ADDU Command
         RegWrite        <= 1'b1; 
@@ -177,6 +187,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b001000xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // ADDI Command
         RegWrite        <= 1'b1; 
@@ -204,6 +216,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b000000xxxxxxxxxxxxxxxxxxxx100010:    begin   // SUB Command
         RegWrite        <= 1'b1; 
@@ -231,6 +245,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b011100xxxxxxxxxxxxxxxxxxxx000010:    begin   // MUL Command
         RegWrite        <= 1'b1;
@@ -258,6 +274,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b000000xxxxxxxxxxxxxxxxxxxx011000:    begin   // MULT Command
         RegWrite        <= 1'b0;
@@ -285,6 +303,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b000000xxxxxxxxxxxxxxxxxxxx011001:    begin   // MULTU Command
         RegWrite        <= 1'b0;
@@ -312,6 +332,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b011100xxxxxxxxxxxxxxxxxxxx000000:    begin   // MADD Command
         RegWrite        <= 1'b0;
@@ -339,6 +361,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b011100xxxxxxxxxxxxxxxxxxxx000100:    begin   // MSUB Command
         RegWrite        <= 1'b0;
@@ -366,6 +390,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end   
       
     /* LOGICAL OPS*/
@@ -395,6 +421,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b001100xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // ANDI Command
         RegWrite        <= 1'b1;
@@ -422,6 +450,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end   
     32'b000000xxxxxxxxxxxxxxxxxxxx100101:    begin   // OR Command
         RegWrite        <= 1'b1;
@@ -449,6 +479,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
      32'b000000xxxxxxxxxxxxxxxxxxxx100111:    begin   // NOR Command
         RegWrite        <= 1'b1;
@@ -476,6 +508,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end   
     32'b000000xxxxxxxxxxxxxxxxxxxx100110:    begin   // XOR Command
         RegWrite        <= 1'b1;
@@ -503,6 +537,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b001101xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // ORI Command
         RegWrite        <= 1'b1;
@@ -530,6 +566,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end        
     32'b001110xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // XORI Command
         RegWrite        <= 1'b1;
@@ -557,6 +595,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b01111100000xxxxxxxxxx11000100000:    begin   // SEH Command
         RegWrite        <= 1'b1;
@@ -584,6 +624,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end   
     32'b000000xxxxxxxxxxxxxxxxxxxx000000:    begin   // SLL Command
         RegWrite        <= 1'b1;
@@ -611,6 +653,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b00000000000xxxxxxxxxxxxxxx000010:    begin   // SRL Command
         RegWrite        <= 1'b1;
@@ -638,6 +682,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end  
     32'b000000xxxxxxxxxxxxxxxxxxxx000100:    begin   // SLLV Command
         RegWrite        <= 1'b1;
@@ -665,6 +711,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxx00000000110:    begin   // SRLV Command
         RegWrite        <= 1'b1;
@@ -692,6 +740,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end     
     32'b000000xxxxxxxxxxxxxxxxxxxx101010:    begin   // SLT Command
         RegWrite        <= 1'b1;
@@ -719,6 +769,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b001010xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // SLTI Command
         RegWrite        <= 1'b1;
@@ -746,6 +798,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx001011:    begin   // MOVN Command
         RegWrite        <= 1'b0;
@@ -773,6 +827,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx001010:    begin   // MOVZ Command
         RegWrite        <= 1'b0;
@@ -800,6 +856,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b1;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end     
     32'b000000xxxxxxxxxxxxxxx00001000110:    begin   // ROTRV Command
         RegWrite        <= 1'b1;
@@ -827,6 +885,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b00000000001xxxxxxxxxxxxxxx000010:    begin   // ROTR Command
         RegWrite        <= 1'b1;
@@ -854,6 +914,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx000011:    begin   // SRA Command
         RegWrite        <= 1'b1;
@@ -881,6 +943,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx000111:    begin   // SRAV Command
         RegWrite        <= 1'b1;
@@ -908,6 +972,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end    
     32'b01111100000xxxxxxxxxx10000100000:    begin   // SEB Command
         RegWrite        <= 1'b1;
@@ -935,6 +1001,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b001011xxxxxxxxxxxxxxxxxxxxxxxxxx:    begin   // SLTIU Command
         RegWrite        <= 1'b1;
@@ -962,6 +1030,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end      
     32'b000000xxxxxxxxxxxxxxxxxxxx101011:    begin   // SLTU Command
         RegWrite        <= 1'b1;
@@ -989,6 +1059,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx010001:    begin   // MTHI Command
         RegWrite        <= 1'b0;
@@ -1016,6 +1088,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b000000xxxxxxxxxxxxxxxxxxxx010011:    begin   // MTLO Command
         RegWrite        <= 1'b0;
@@ -1043,6 +1117,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end 
     32'b0000000000000000xxxxx00000010000:    begin   // MFHI Command
         RegWrite        <= 1'b1;
@@ -1070,6 +1146,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end                 
     32'b0000000000000000xxxxx00000010010:    begin   // MFLO Command
         RegWrite        <= 1'b1;
@@ -1097,6 +1175,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b100011xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin //LW
         RegWrite        <= 1'b1;
@@ -1123,6 +1203,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
     end
     32'b101011xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin //SW
         RegWrite        <= 1'b0;
@@ -1149,6 +1231,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
     end
     32'b101000xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin //SB
         RegWrite        <= 1'b0;
@@ -1175,6 +1259,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b1;
         LoadStoreHalf   <= 1'b0;
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
     end      
     32'b100001xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin //LH
         RegWrite        <= 1'b1;
@@ -1201,6 +1287,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b1;
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
     end
     32'b100000xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin //LB
         RegWrite        <= 1'b1;
@@ -1227,6 +1315,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b1;
         LoadStoreHalf   <= 1'b0;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b101001xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin //SH
         RegWrite        <= 1'b0;
@@ -1253,6 +1343,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b1;      
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
       end
     32'b00111100000xxxxxxxxxxxxxxxxxxxxx:   begin //LUI
         RegWrite        <= 1'b1;
@@ -1279,11 +1371,184 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MOVZ            <= 1'b0;
         LoadStoreByte   <= 1'b0;
         LoadStoreHalf   <= 1'b0;    
-      end                                               
-    endcase
-	
-	
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
+      end
+
+    32'b000001xxxxx00001xxxxxxxxxxxxxxxx:   begin //BGEZ
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'b10100;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b1; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b1; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b1;
+        Jump            <= 2'b00;
     end
-    
+
+    32'b000100xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin // BEQ
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'b00100;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b1; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
+    end
+
+    32'b000101xxxxxxxxxxxxxxxxxxxxxxxxxx:   begin // BNE
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'b00100;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b1; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b1;
+        Jump            <= 2'b00;
+    end
+
+    32'b000111xxxxx00000xxxxxxxxxxxxxxxx:   begin // BGTZ
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'b00111;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b1; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b1; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b1;
+        Jump            <= 2'b00;
+    end
+
+    32'b000110xxxxx00000xxxxxxxxxxxxxxxx:   begin // BLEZ
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'b10100;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b1; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b1;
+        Jump            <= 2'b00;
+    end
+
+    32'b000001xxxxx00000xxxxxxxxxxxxxxxx:   begin // BLTZ
+        RegWrite        <= 1'b0;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'b00111;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b1; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b1;
+        Jump            <= 2'b00;
+    end
+    endcase
+end    
 endmodule
 

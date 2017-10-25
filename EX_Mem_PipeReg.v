@@ -9,7 +9,7 @@
 // Description - Implements a register between EX and Mem stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, MemoryWriteDataOut, DestinationRegOut, LoadStoreByteOut, LoadStoreHalfOut);
+module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, MemoryWriteDataOut, DestinationRegOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut);
 
 	/* Control Signals*/
     output reg BranchOut; 
@@ -19,7 +19,8 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, L
     output reg MemToRegOut;
     output reg LoadStoreByteOut;
     output reg LoadStoreHalfOut; 
-    
+    output reg NotZeroOut;
+
     output reg [31:0] BranchTargetAddressOut;
     output reg [31:0] ALUOut;
     output reg ZeroOut;
@@ -34,7 +35,8 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, L
     input MemToRegIn;
     input LoadStoreByteIn;
     input LoadStoreHalfIn; 
-    
+    input NotZeroIn;
+
     input [31:0] BranchTargetAddressIn;
     input [31:0] ALUIn;
     input ZeroIn;
@@ -50,7 +52,8 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, L
             RegWriteOut <= RegWriteIn; 
             MemToRegOut <= MemToRegIn;
             LoadStoreByteOut <= LoadStoreByteIn;
-            LoadStoreHalfOut <= LoadStoreHalfIn; 
+            LoadStoreHalfOut <= LoadStoreHalfIn;
+            NotZeroOut <= NotZeroIn; 
         
             BranchTargetAddressOut <= BranchTargetAddressIn;
             ALUOut <= ALUIn;

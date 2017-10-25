@@ -61,7 +61,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
     /* Please fill in the implementation here... */
     parameter ADD = 5'b00010, SUB = 5'b00110, AND = 5'b00000, OR = 5'b00001, NOR = 5'b00011, XOR = 5'b00100, SLT = 5'b00111;
     parameter MULT = 5'b01000, SEH = 5'b01001, SEB = 5'b01010, SLL = 5'b01011, SRL = 5'b01100, ROTR = 5'b01101, SRA = 5'b01110;
-    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000, MULTU = 5'b10001, SLTU = 5'b10010, LUI = 5'b10011;
+    parameter SLLV = 5'b00101, SRLV = 5'b01111, ROTRV = 5'b10000, MULTU = 5'b10001, SLTU = 5'b10010, LUI = 5'b10011, GTE = 5'b10100;
     reg signed [63:0] TempResult;
     reg TempZero;
     reg [31:0] A_Unsigned, B_Unsigned;
@@ -100,6 +100,7 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
                 B_Unsigned = B << 16;
                 TempResult = {B_Unsigned[15:0], 16'b0};
             end
+            GTE: TempResult = A >= B;
             default: TempResult = 64'bX;
         endcase
         

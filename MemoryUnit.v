@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut);
+module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, NotZeroIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, RegWriteOut, MemToRegOut, PCSrcOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
@@ -27,15 +27,19 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     input RegWriteIn; 
     input MemToRegIn;
     input LoadStoreByteIn;
-    input LoadStoreHalfIn; 
+    input LoadStoreHalfIn;
+    input NotZeroIn; 
     
     input [31:0] BranchTargetAddressIn;
     input [31:0] ALUIn;
     input ZeroIn;
     input [31:0] MemoryWriteDataIn; 
-    input [4:0] DestinationRegIn; 
+    input [4:0] DestinationRegIn;
+
+    wire ZeroMuxOut; 
     
 	DataMemory DataMemory_1(ALUIn[31:0], MemoryWriteDataIn, Clk, MemWriteIn, MemReadIn, DataMemOut, LoadStoreByteIn, LoadStoreHalfIn);
+    Mux32Bit2To1 Mux32Bit2To1_1(ZeroMuxOut, ZeroIn, ~ZeroIn, NotZeroIn);
 	
 	// Assign Statements
 	assign RegWriteOut = RegWriteIn; 
@@ -45,7 +49,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     assign ALUOut = ALUIn; 
     
     // Branch AND Gate Logic
-    assign PCSrcOut = (ZeroIn & BranchIn); 
+    assign PCSrcOut = (ZeroMuxOut & BranchIn); 
     
 endmodule
 
