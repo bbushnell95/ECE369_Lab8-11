@@ -35,25 +35,49 @@
 // of the "Address" input to index any of the 256 words. 
 ////////////////////////////////////////////////////////////////////////////////
 
-module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData); 
+module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStoreByte, LoadStoreHalf); 
 
     input [31:0] Address; 	// Input Address 
     input [31:0] WriteData; // Data that needs to be written into the address 
     input Clk;
     input MemWrite; 		// Control signal for memory write 
-    input MemRead; 			// Control signal for memory read 
+    input MemRead; 			// Control signal for memory read
+    input LoadStoreByte;    // Control signal for byte
+    input LoadStoreHalf;    // Control signal for Half
 
     output reg[31:0] ReadData; // Contents of memory location at Address
 
     /* Please fill in the implementation here */
     reg [31:0] Memory[0:1023];
     
-    always@(posedge Clk)begin   //, MemRead
-        //If MemWrite is 1, write to the memory address
-        if(MemWrite == 1'b1) Memory[Address[11:2]] = WriteData;
+    integer i;
+    
+    initial begin
+        Memory[0] <= 32'b0;
+        Memory[1] <= 32'h00000001;
+        Memory[2] <= 'h00000002;
+        Memory[3] <= 'h00000003;
+        Memory[4] <= 'h00000004;
+        Memory[5] <= 'hFFFFFFFF;
         
+        for(i=6; i < 1024; i = i + 1) begin
+           Memory[i] <= 32'b0;    
+        end
+    end
+    
+    always@(posedge Clk, posedge MemRead)begin   //, MemRead
+        //If MemWrite is 1, write to the memory address
+        if(MemWrite == 1'b1) begin
+            if(LoadStoreByte == 1'b1 && LoadStoreHalf == 1'b0) Memory[Address[11:2]][7:0] = WriteData[7:0];
+            else if(LoadStoreHalf == 1'b1 && LoadStoreByte == 1'b0) Memory[Address[11:2]][15:0] = WriteData[15:0];
+            else Memory[Address[11:2]] = WriteData;
+        end
         //If MemRead is 1, Read from the memory address
-       if(MemRead == 1'b1) ReadData <= Memory[Address[11:2]];
+       if(MemRead == 1'b1) begin
+            if(LoadStoreByte == 1'b1 && LoadStoreHalf == 1'b0) ReadData <= {{24{Memory[Address[11:2]][7]}}, Memory[Address[11:2]][7:0]};
+            else if(LoadStoreHalf == 1'b1 && LoadStoreByte == 1'b0) ReadData <= {{16{Memory[Address[11:2]][15]}}, Memory[Address[11:2]][15:0]};
+            else ReadData <= Memory[Address[11:2]];
+        end
        else ReadData <= 'h00000000;
     end
 

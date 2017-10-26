@@ -50,6 +50,9 @@ module DataPath_tb();
 
         // Reset Off
         @(posedge Clk);
+        @(posedge Clk);
+        @(posedge Clk);
+        @(posedge Clk);
         #10 Reset <= 1'b0; 
 
     end
