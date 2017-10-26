@@ -26,6 +26,9 @@ module WriteBackUnit(RegWriteIn, MemToRegIn, ALUIn, MemoryReadDataIn, Destinatio
     
     // Included Modules
 	Mux32Bit2To1 Mux32Bit2To1_1(RegWriteDataOut, MemoryReadDataIn, ALUIn, MemToRegIn); 
+	// TODO: need output mux for write data to mux in the JAL info to $RA(31)
+	// TODO: need output mux for writeregister to hardwire in an option for $RA(31) 5 bits
+	// should be controlled by 2 bits of jump or'd together
 	
 	// Assign statements
 	assign RegWriteOut = RegWriteIn; 

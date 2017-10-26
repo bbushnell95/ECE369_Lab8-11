@@ -55,6 +55,8 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     SignExtension SignExtension_1(Instruction[15:0], ZeroExtend, SignExtendOffsetOut);
     Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, place_holder);
     
+    //TODO: concatenate { PCValueIn[31:28] , (Instruction[25:0] , 2'b00} and write it as a direct output to jump muxes in IF unit
+    
     // Assign Statements
     assign RTFieldOut = Instruction[20:16];
     assign RDFieldOut = Instruction[15:11];
