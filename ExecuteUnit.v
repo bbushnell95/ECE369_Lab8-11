@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, StraightToHiIn, StraightToLoIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut, EXU_HIRegOutput, EXU_LORegOutput);	
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, StraightToHiIn, StraightToLoIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, JumpIn, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut, EXU_HIRegOutput, EXU_LORegOutput, PCValueForJALOut);	
 	/* Control Signals*/
     output BranchOut; 
     output MemReadOut; 
@@ -18,6 +18,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     output LoadStoreByteOut;
     output LoadStoreHalfOut;
     output NotZeroOut; 
+    output [1:0] JumpOut;
         
     output [31:0] BranchTargetAddressOut;			//this is pcvalue after adding and shifting
     output [31:0] ExecuteDataOut;                   //output to the piperegister  
@@ -25,6 +26,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     output [4:0] DestinationRegOut; 
     output [31:0] MemoryWriteDataOut;
     output [31:0] EXU_HIRegOutput, EXU_LORegOutput; 
+    output [31:0] PCValueForJALOut; 
   
 	/* Control Signals */
     input Reset, Clk;
@@ -49,6 +51,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     input LoadStoreByteIn;
     input LoadStoreHalfIn;
     input NotZeroIn; 
+    input [1:0] JumpIn;
     
 	input [31:0] PCValueIn; 
     input [31:0] ReadData1In;
@@ -89,7 +92,6 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign BranchOut = BranchIn; 
     assign MemReadOut = MemReadIn; 
     assign MemWriteOut = MemWriteIn; 
-    //assign RegWriteOut = RegWriteIn; 
     assign MemToRegOut = MemToRegIn; 
     assign MemoryWriteDataOut = ReadData2In; 
     assign EXU_HIRegOutput = HIRegOutput;
@@ -97,7 +99,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign LoadStoreByteOut = LoadStoreByteIn;
     assign LoadStoreHalfOut = LoadStoreHalfIn;
     assign NotZeroOut = NotZeroIn;
-    
+    assign PCValueForJALOut = PCValueIn; 
+    assign JumpOut = JumpIn; 
     
     always @(ReadData2In or RegWriteIn or MOVZIn or MOVNIn) begin
         if ((MOVZIn == 1) && (ReadData2In == 0)) begin

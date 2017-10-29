@@ -8,10 +8,11 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module WriteBackUnit(RegWriteIn, MemToRegIn, ALUIn, MemoryReadDataIn, DestinationRegIn, RegWriteOut, RegWriteDataOut, DestinationRegOut);
+module WriteBackUnit(RegWriteIn, MemToRegIn, JumpIn, ALUIn, MemoryReadDataIn, DestinationRegIn, PCValueForJALIn, RegWriteOut, RegWriteDataOut, DestinationRegOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
+    
     /* Data Signals*/
     output [31:0] RegWriteDataOut;
     output [4:0] DestinationRegOut; 
@@ -19,20 +20,26 @@ module WriteBackUnit(RegWriteIn, MemToRegIn, ALUIn, MemoryReadDataIn, Destinatio
 	/* Control Signals*/
     input RegWriteIn; 
     input MemToRegIn; 
+    input [1:0] JumpIn; 
+    
     /* Data Signals*/
     input [31:0] ALUIn;
     input [31:0] MemoryReadDataIn; 
     input [4:0] DestinationRegIn; 
+    input [31:0] PCValueForJALIn; 
+    
+    wire [31:0] NonJumpWriteData; 
+    wire JumpControlsOrTogether; 
     
     // Included Modules
-	Mux32Bit2To1 Mux32Bit2To1_1(RegWriteDataOut, MemoryReadDataIn, ALUIn, MemToRegIn); 
-	// TODO: need output mux for write data to mux in the JAL info to $RA(31)
-	// TODO: need output mux for writeregister to hardwire in an option for $RA(31) 5 bits
-	// should be controlled by 2 bits of jump or'd together
+	Mux32Bit2To1 WriteDataMux(NonJumpWriteData, MemoryReadDataIn, ALUIn, MemToRegIn); 
+	Mux32Bit2To1 WriteDataOverride(RegWriteDataOut, NonJumpWriteData, PCValueForJALIn, JumpControlsOrTogether); 
+	Mux32Bit2To1 DestinationRegOverride(DestinationRegOut, DestinationRegIn, 31, JumpControlsOrTogether); 
 	
 	// Assign statements
 	assign RegWriteOut = RegWriteIn; 
-	assign DestinationRegOut = DestinationRegIn;
+	//assign DestinationRegOut = DestinationRegIn;
+	assign JumpControlsOrTogether = (JumpIn[0] | JumpIn[1]); 
     
 endmodule
 
