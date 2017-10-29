@@ -39,22 +39,30 @@
 // which generates a continuous clock pulse into the module.
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionFetchUnit(Reset, Clk, PCSrcIn, BranchTargetAddressIn, Instruction, PCValueOut);
+module InstructionFetchUnit(Reset, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, JumpConcatPCValueIn, JRJumpPCValueIn, Instruction, PCValueOut);
 
     /* Please fill in the implementation here... */
     input Reset, Clk;
     input PCSrcIn; 
+    input [1:0] JumpIn; 
     input [31:0] BranchTargetAddressIn; 
+    input [31:0] JumpConcatPCValueIn;                 // used if J command jump taken
+    input [31:0] JRJumpPCValueIn;               // used if JR command jump taken
+    
     output [31:0] Instruction;
     output [31:0] PCValueOut;
     
-    wire [31:0] addrOut, programCount, nextPC;
+    wire [31:0] addrOut, programCount, nextPC, branchAddWire, jumpWire;
     
     // Included Modules
     PCAdder PCAdder_1(programCount, addrOut);
     ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Clk);
     InstructionMemory InstuctionMemory_1(programCount, Instruction);
-    Mux32Bit2To1 Mux32Bit2To1_1(nextPC, addrOut, BranchTargetAddressIn, PCSrcIn);
+    Mux32Bit2To1 Mux32Bit2To1_1(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
+    
+    Mux32Bit2To1 JR_JumpMux(jumpWire, branchAddWire, JRJumpPCValueIn, JumpIn[1]);
+    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]); 
+ 
     
     // TODO: ProgramCounter input needs to be the output of a new mux chain
     // TODO: JumpMux controlled by jump[0] takes in nextPC wire(0) and concatenated output from IF(1) [J Command]

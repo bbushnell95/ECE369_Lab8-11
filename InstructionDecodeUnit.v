@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
+module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
 
     input Reset, Clk;
     input [31:0] Instruction;
@@ -41,7 +41,8 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output NotZeroOut;
     output [1:0] JumpOut;
     
-    output [31:0] PCValueOut; 
+    output [31:0] PCValueOut;
+    output [31:0] JumpPCValueOut;  
     output [31:0] ReadData1Out;
     output [31:0] ReadData2Out;
     output [31:0] SignExtendOffsetOut;
@@ -57,7 +58,8 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     SignExtension SignExtension_1(Instruction[15:0], ZeroExtend, SignExtendOffsetOut);
     Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut);
     
-    //TODO: concatenate { PCValueIn[31:28] , (Instruction[25:0] , 2'b00} and write it as a direct output to jump muxes in IF unit
+    
+    assign JumpPCValueOut = { PCValueIn[31:28] , Instruction[25:0] , 2'b00};  // and write it as a direct output to jump muxes in IF unit
     
     // Assign Statements
     assign RTFieldOut = Instruction[20:16];
