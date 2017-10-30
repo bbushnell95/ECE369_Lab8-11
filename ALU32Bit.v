@@ -98,8 +98,9 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             ROTRV: TempResult = {{32{1'b0}}, (A << 32-B) | (A >> B)};
             SRA: TempResult = A >>> B;
             LUI: begin
-                B_Unsigned = B << 16;
-                TempResult = {B_Unsigned[15:0], 16'b0};
+                TempResult = B << 16; 
+                //B_Unsigned = B << 16;
+                //TempResult = {B_Unsigned[15:0], 16'b0};
             end
             GTE: TempResult = A >= B;
             default: TempResult = 64'bX;

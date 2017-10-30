@@ -1515,7 +1515,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         AltALUSrc1      <= 1'b0; 
         ZeroALUSrc1     <= 1'b0;
         ZeroALUSrc2     <= 1'b0; 
-        Swap            <= 1'b0; 
+        Swap            <= 1'b1; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
         AddToHi         <= 1'b0; 
