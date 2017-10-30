@@ -25,7 +25,7 @@ module DataPath_tb();
     reg Clk, Reset;  
     wire [31:0] WriteData;
     wire [31:0] ProgramCount;
-    reg RegWriteCommand;
+    wire RegWriteCommand;
    // wire [31:0] HIRegOutput; 
    // wire [31:0] LORegOutput;
     
