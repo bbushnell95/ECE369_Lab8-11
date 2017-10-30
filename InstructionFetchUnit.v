@@ -61,13 +61,7 @@ module InstructionFetchUnit(Reset, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, 
     Mux32Bit2To1 Mux32Bit2To1_1(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
     
     Mux32Bit2To1 JR_JumpMux(jumpWire, branchAddWire, JRJumpPCValueIn, JumpIn[1]);
-    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]); 
- 
-    
-    // TODO: ProgramCounter input needs to be the output of a new mux chain
-    // TODO: JumpMux controlled by jump[0] takes in nextPC wire(0) and concatenated output from IF(1) [J Command]
-    // TODO: JumpRAMux controlled by jump[1] takes output of previous mux(0) and routed readdata1output from IF(1) representing $RA(31)
-    
+    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
     
 //    initial begin
 //        CurrentPCOut <= 32'b0; 

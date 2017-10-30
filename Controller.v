@@ -1190,6 +1190,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
         ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc2     <= 1'b0;
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1217,7 +1218,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1245,7 +1247,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1273,7 +1276,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1301,7 +1305,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1330,6 +1335,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
         ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc2     <= 1'b0;
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1357,7 +1363,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b1; 
         MemToReg        <= 1'b1;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1386,7 +1393,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b1; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b1; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1415,7 +1423,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1444,7 +1453,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1473,7 +1483,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b1; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1502,7 +1513,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1531,7 +1543,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1560,7 +1573,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1589,7 +1603,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1618,7 +1633,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 

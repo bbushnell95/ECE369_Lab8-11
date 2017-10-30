@@ -64,8 +64,8 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, HIRegOutput, LORegOutput);
     wire [1:0] EXU_EXMEM_Jump; 
 	
 	// EXMEM to MEM wires
-	wire EXMEM_MEM_Branch, EXMEM_MEM_MemRead, EXMEM_MEM_MemWrite, EXMEM_MEM_RegWrite, EXMEM_MEM_MemToReg, EXMEM_MEM_BranchTargetAddress, EXMEM_MEM_Zero;
-	wire [31:0] EXMEM_MEM_ALU, EXMEM_MEM_MemoryWriteData, EXMEM_MEM_PCValueForJAL;
+	wire EXMEM_MEM_Branch, EXMEM_MEM_MemRead, EXMEM_MEM_MemWrite, EXMEM_MEM_RegWrite, EXMEM_MEM_MemToReg, EXMEM_MEM_Zero;
+	wire [31:0] EXMEM_MEM_BranchTargetAddress, EXMEM_MEM_ALU, EXMEM_MEM_MemoryWriteData, EXMEM_MEM_PCValueForJAL;
 	wire [4:0] EXMEM_MEM_DestinationReg;
 	wire EXMEM_MEM_LoadStoreByte, EXMEM_MEM_LoadStoreHalf;
 	wire EXMEM_MEM_NotZero;
@@ -93,6 +93,7 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, HIRegOutput, LORegOutput);
     ExecuteUnit ExecuteUnit_1(Reset, Clk, IDEX_EXU_Branch, IDEX_EXU_MemRead, IDEX_EXU_MemWrite, IDEX_EXU_RegWrite, IDEX_EXU_MemToReg, IDEX_EXU_RegDst, IDEX_EXU_ALUOp, IDEX_EXU_ALUSrc, IDEX_EXU_AltALUSrc1, IDEX_EXU_ZeroALUSrc1, IDEX_EXU_ZeroALUSrc2, IDEX_EXU_Swap, IDEX_EXU_ALUHiLoSelect, IDEX_EXU_MOVN, IDEX_EXU_MOVZ, IDEX_EXU_StraightToHi, IDEX_EXU_StraightToLo, IDEX_EXU_LoadStoreByte, IDEX_EXU_LoadStoreHalf, IDEX_EXU_NotZero, IDEX_EXU_Jump, IDEX_EXU_PCValue, IDEX_EXU_ReadData1, IDEX_EXU_ReadData2, IDEX_EXU_SignExtendOffset, IDEX_EXU_RDField, IDEX_EXU_RTField, IDEX_EXU_HiLoALUControl, IDEX_EXU_AddToHi, IDEX_EXU_AddToLo, IDEX_EXU_MoveToHi, IDEX_EXU_HiLoSel, EXU_EXMEM_Branch, EXU_EXMEM_MemRead, EXU_EXMEM_MemWrite, EXU_EXMEM_RegWrite, EXU_EXMEM_MemToReg, EXU_EXMEM_LoadStoreByte, EXU_EXMEM_LoadStoreHalf, EXU_EXMEM_NotZero, EXU_EXMEM_Jump, EXU_EXMEM_BranchTargetAddress, EXU_EXMEM_ExecuteData, EXU_EXMEM_Zero, EXU_EXMEM_DestinationReg, EXU_EXMEM_MemoryWriteData, EXU_HIRegOutput, EXU_LORegOutput, EXU_EXMEM_PCValueForJAL);	
     EX_Mem_PipeReg EX_Mem_PipeReg_1(EXU_EXMEM_Branch, EXU_EXMEM_MemRead, EXU_EXMEM_MemWrite, EXU_EXMEM_RegWrite, EXU_EXMEM_MemToReg, EXU_EXMEM_LoadStoreByte, EXU_EXMEM_LoadStoreHalf, EXU_EXMEM_NotZero, EXU_EXMEM_Jump, EXU_EXMEM_BranchTargetAddress, EXU_EXMEM_ExecuteData, EXU_EXMEM_Zero, EXU_EXMEM_MemoryWriteData, EXU_EXMEM_DestinationReg, EXU_EXMEM_PCValueForJAL, Clk, EXMEM_MEM_Branch, EXMEM_MEM_MemRead, EXMEM_MEM_MemWrite, EXMEM_MEM_RegWrite, EXMEM_MEM_MemToReg, EXMEM_MEM_BranchTargetAddress, EXMEM_MEM_ALU, EXMEM_MEM_Zero, EXMEM_MEM_MemoryWriteData, EXMEM_MEM_DestinationReg, EXMEM_MEM_PCValueForJAL, EXMEM_MEM_LoadStoreByte, EXMEM_MEM_LoadStoreHalf, EXMEM_MEM_NotZero, EXMEM_MEM_Jump);
     MemoryUnit MemoryUnit_1(Clk, EXMEM_MEM_Branch, EXMEM_MEM_MemRead, EXMEM_MEM_MemWrite, EXMEM_MEM_RegWrite, EXMEM_MEM_MemToReg, EXMEM_MEM_LoadStoreByte, EXMEM_MEM_LoadStoreHalf, EXMEM_MEM_BranchTargetAddress, EXMEM_MEM_NotZero, EXMEM_MEM_Jump, EXMEM_MEM_ALU, EXMEM_MEM_Zero, EXMEM_MEM_MemoryWriteData, EXMEM_MEM_DestinationReg, EXMEM_MEM_PCValueForJAL, MEM_MEMWB_RegWrite, MEM_MEMWB_MemToReg, MEM_IFU_PCSrc, MEM_MEMWB_Jump, MEM_IFU_BranchTargetAddress, MEM_MEMWB_ALU, MEM_MEMWB_DataMem, MEM_MEMWB_DestinationReg, MEM_MEMWB_PCValueForJAL);
+
     Mem_WB_PipeReg Mem_WB_PipeReg_1(MEM_MEMWB_RegWrite, MEM_MEMWB_MemToReg, MEM_MEMWB_Jump, MEM_MEMWB_ALU, MEM_MEMWB_DataMem, MEM_MEMWB_DestinationReg, MEM_MEMWB_PCValueForJAL, Clk, MEMWB_WB_RegWrite, MEMWB_WB_MemToReg, MEMWB_WB_Jump, MEMWB_WB_ALU, MEMWB_WB_DataMem, MEMWB_WB_DestinationReg, MEMWB_WB_PCValueForJAL);
     WriteBackUnit WriteBackUnit_1(MEMWB_WB_RegWrite, MEMWB_WB_MemToReg, MEMWB_WB_Jump, MEMWB_WB_ALU, MEMWB_WB_DataMem, MEMWB_WB_DestinationReg, MEMWB_WB_PCValueForJAL, WB_IDU_RegWrite, WB_IDU_WriteData, WB_IDU_DestinationReg);    
 	
