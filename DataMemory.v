@@ -65,13 +65,16 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStor
         end
     end
     
-    always@(posedge Clk, posedge MemRead)begin   //, MemRead
+    always@(posedge Clk)begin   //, MemRead
         //If MemWrite is 1, write to the memory address
         if(MemWrite == 1'b1) begin
             if(LoadStoreByte == 1'b1 && LoadStoreHalf == 1'b0) Memory[Address[11:2]][7:0] = WriteData[7:0];
             else if(LoadStoreHalf == 1'b1 && LoadStoreByte == 1'b0) Memory[Address[11:2]][15:0] = WriteData[15:0];
             else Memory[Address[11:2]] = WriteData;
         end
+    end
+    
+    always@(MemRead)begin        
         //If MemRead is 1, Read from the memory address
        if(MemRead == 1'b1) begin
             if(LoadStoreByte == 1'b1 && LoadStoreHalf == 1'b0) ReadData <= {{24{Memory[Address[11:2]][7]}}, Memory[Address[11:2]][7:0]};

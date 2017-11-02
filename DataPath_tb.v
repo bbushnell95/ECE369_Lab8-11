@@ -25,16 +25,18 @@ module DataPath_tb();
     reg Clk, Reset;  
     wire [31:0] WriteData;
     wire [31:0] ProgramCount;
-    wire [31:0] HIRegOutput; 
-    wire [31:0] LORegOutput;
+    wire RegWriteCommand;
+   // wire [31:0] HIRegOutput; 
+   // wire [31:0] LORegOutput;
     
     DataPath u0(
        .Clk(Clk), 
        .Reset(Reset), 
        .WriteData(WriteData),
-       .ProgramCount(ProgramCount),
-       .HIRegOutput(HIRegOutput),
-       .LORegOutput(LORegOutput)
+       .ProgramCount(ProgramCount), 
+       .RegWriteCommand(RegWriteCommand)
+     //  .HIRegOutput(HIRegOutput),
+    //   .LORegOutput(LORegOutput)
     );
     
     initial begin
