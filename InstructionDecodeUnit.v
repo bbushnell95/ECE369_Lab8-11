@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut);
+module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut, InstructionOut);
 
     input Reset, Clk;
     input [31:0] Instruction;
@@ -48,6 +48,7 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output [31:0] SignExtendOffsetOut;
     output [4:0] RDFieldOut; 
     output [4:0] RTFieldOut; 
+    output [31:0] InstructionOut; 
 
 	
 	wire ZeroExtend;
@@ -62,9 +63,11 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     assign JumpPCValueOut = { PCValueIn[31:28] , Instruction[25:0] , 2'b00};  // and write it as a direct output to jump muxes in IF unit
     
     // Assign Statements
+//    assign RSFieldOut = Instruction[25:21];
     assign RTFieldOut = Instruction[20:16];
     assign RDFieldOut = Instruction[15:11];
     assign PCValueOut = PCValueIn;     
+    assign InstructionOut = Instruction;
     
 endmodule
 
