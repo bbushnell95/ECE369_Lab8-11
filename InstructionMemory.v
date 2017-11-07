@@ -45,7 +45,7 @@ module InstructionMemory(Address, Instruction);
     
         /* Please fill in the implementation here */
     integer i, DecimalEQ;
-    reg [31:0] memory[0:426];       // All instructions
+    reg [31:0] memory[0:468];       // All instructions
 
     
     initial begin                               // Initialize the InstructionBank with arbitrary values
