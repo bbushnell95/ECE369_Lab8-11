@@ -107,7 +107,8 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign MemReadOut = MemReadIn; 
     assign MemWriteOut = MemWriteIn; 
     assign MemToRegOut = MemToRegIn; 
-    assign MemoryWriteDataOut = ReadData2In; 
+    //assign MemoryWriteDataOut = ReadData2In; 
+    assign MemoryWriteDataOut = ForwardedData2;
     assign EXU_HIRegOutput = HIRegOutput;
     assign EXU_LORegOutput = LORegOutput;
     assign LoadStoreByteOut = LoadStoreByteIn;

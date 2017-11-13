@@ -63,8 +63,8 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStor
         Memory[7] <= 32'h00000320;
         Memory[8] <= 32'h00000384;
         Memory[9] <= 32'h000003E8;
-        Memory[10] <= 32'h000044C;
-        Memory[11] <= 32'h00004B0;
+        Memory[10] <= 32'h0000044C;
+        Memory[11] <= 32'h000004B0;
         
         for(i=12; i < 1024; i = i + 1) begin
            Memory[i] <= 32'b0;    
@@ -80,7 +80,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStor
         end
     end
     
-    always@(MemRead)begin        
+    always@(MemRead or Address)begin        
         //If MemRead is 1, Read from the memory address
        if(MemRead == 1'b1) begin
             if(LoadStoreByte == 1'b1 && LoadStoreHalf == 1'b0) ReadData <= {{24{Memory[Address[11:2]][7]}}, Memory[Address[11:2]][7:0]};
