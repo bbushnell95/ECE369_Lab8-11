@@ -48,7 +48,7 @@ module InstructionMemory(Address, Instruction);
     reg [31:0] memory[0:468];       // All instructions
 
     
-    initial begin                               // Initialize the InstructionBank with arbitrary values
+    initial begin                               // Initialize the InstructionBank
         memory[0] = 32'b00110100000100100000000000000000; //  main:       ori $s2, $zero, 0
         memory[1] = 32'b10001110010100100000000000000000;   //          lw  $s2, 0($s2)
         memory[2] = 32'b00110100000100110000000000000000;   //          ori $s3, $zero, 0

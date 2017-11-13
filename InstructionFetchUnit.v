@@ -39,10 +39,10 @@
 // which generates a continuous clock pulse into the module.
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionFetchUnit(Reset, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, JumpConcatPCValueIn, JRJumpPCValueIn, Instruction, PCValueOut);
+module InstructionFetchUnit(Reset, Stall, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, JumpConcatPCValueIn, JRJumpPCValueIn, Instruction, PCValueOut);
 
     /* Please fill in the implementation here... */
-    input Reset, Clk;
+    input Reset, Stall, Clk;
     input PCSrcIn; 
     input [1:0] JumpIn; 
     input [31:0] BranchTargetAddressIn; 
@@ -56,7 +56,7 @@ module InstructionFetchUnit(Reset, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, 
     
     // Included Modules
     PCAdder PCAdder_1(programCount, addrOut);
-    ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Clk);
+    ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Stall, Clk);
     InstructionMemory InstuctionMemory_1(programCount, Instruction);
     Mux32Bit2To1 Mux32Bit2To1_1(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
     

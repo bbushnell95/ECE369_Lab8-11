@@ -125,7 +125,6 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
         end
         else RegWriteOut <= RegWriteIn; 
      end
-     
     
     // Need to check this adder and shifter combo
     assign BranchTargetAddressOut = (SignExtendOffsetIn << 2) + PCValueIn; 

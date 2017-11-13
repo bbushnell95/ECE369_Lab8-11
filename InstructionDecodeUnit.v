@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut, InstructionOut);
+module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, ReadData1Overwrite, ReadData2Overwrite, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut, InstructionOut);
 
     input Reset, Clk;
     input [31:0] Instruction;
@@ -16,6 +16,7 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
 	input [4:0] DestinationRegIn; 
 	input [31:0] WriteData;
 	input RegWriteIn; 
+	input ReadData1Overwrite, ReadData2Overwrite;
 	
 	/* Control Signals*/
     output BranchOut; 
@@ -52,13 +53,16 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
 
 	
 	wire ZeroExtend;
-   // wire place_holder; 	
+    wire Mux1Input, Mux2Input; 	
 	
     // Included Modules
-    RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, ReadData1Out, ReadData2Out);
+    RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, Mux1Input, Mux2Input);
     SignExtension SignExtension_1(Instruction[15:0], ZeroExtend, SignExtendOffsetOut);
     Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut);
     
+    Mux32Bit2To1 ReadData1OverwriteMux(ReadData1Out, Mux1Input, WriteData, ReadData1Overwrite); 
+    Mux32Bit2To1 ReadData2OverwriteMux(ReadData2Out, Mux2Input, WriteData, ReadData2Overwrite); 
+
     
     assign JumpPCValueOut = { PCValueIn[31:28] , Instruction[25:0] , 2'b00};  // and write it as a direct output to jump muxes in IF unit
     

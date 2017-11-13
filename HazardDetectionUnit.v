@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module HazardDetectionUnit(EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, Stall, Reset);
+module HazardDetectionUnit(Reset, EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, Stall);
 
 	input EXU_MemRead, Reset;
 	input [4:0] IDU_RsReg, IDU_RtReg, EXU_RtReg;

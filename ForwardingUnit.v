@@ -1,12 +1,11 @@
 `timescale 1ns / 1ps
 
-module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_DestinationRegAddress, MEM_RegWrite, WB_DestinationRegAddress, WB_RegWrite, EXU_ReadData1MEMOverwrite, EXU_ReadData2MEMOverwrite, EXU_ReadData1WBOverwrite, EXU_ReadData2WBOverwrite);
-    //IDU_ReadData1Overwrite, IDU_ReadData2Overwrite,
+module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_DestinationRegAddress, MEM_RegWrite, WB_DestinationRegAddress, WB_RegWrite, EXU_ReadData1MEMOverwrite, EXU_ReadData2MEMOverwrite, EXU_ReadData1WBOverwrite, EXU_ReadData2WBOverwrite, IDU_ReadData1Overwrite, IDU_ReadData2Overwrite);
 
 	input [4:0] IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_DestinationRegAddress, WB_DestinationRegAddress;
 	input MEM_RegWrite, WB_RegWrite;
 
-	//output IDU_ReadData1Overwrite, IDU_ReadData2Overwrite;
+	output IDU_ReadData1Overwrite, IDU_ReadData2Overwrite;
 	output EXU_ReadData1MEMOverwrite, EXU_ReadData2MEMOverwrite; 
 	output EXU_ReadData1WBOverwrite, EXU_ReadData2WBOverwrite; 
 
@@ -37,18 +36,18 @@ module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_Destinatio
 			EXU_ReadData2WBOverwrite <= 0;
 		end
 		
-		// maybe not needed after all
-//		if (IDU_RsReg == MEM_DestinationRegAddress && MEM_RegWrite == 1) begin
-//			IDU_ReadData1Overwrite <= 1;
-//		end else begin
-//			IDU_ReadData1Overwrite <= 0;
-//		end
+		// IDU 
+		if (IDU_RsReg == MEM_DestinationRegAddress && MEM_RegWrite == 1) begin
+			IDU_ReadData1Overwrite <= 1;
+		end else begin
+			IDU_ReadData1Overwrite <= 0;
+		end
 		
-//		if (IDU_RtReg == MEM_DestinationRegAddress && MEM_RegWrite == 1) begin
-//			IDU_ReadData2Overwrite <= 1;
-//		end else begin
-//			IDU_ReadData2Overwrite <= 0;
-//		end
+		if (IDU_RtReg == MEM_DestinationRegAddress && MEM_RegWrite == 1) begin
+			IDU_ReadData2Overwrite <= 1;
+		end else begin
+			IDU_ReadData2Overwrite <= 0;
+		end
 	end
 	
 	
