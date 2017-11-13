@@ -548,7 +548,7 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         Branch          <= 1'b0; 
         MemWrite        <= 1'b0; 
         MemRead         <= 1'b0; 
-        ZeroExtend      <= 1'b0; 
+        ZeroExtend      <= 1'b1; 
         MemToReg        <= 1'b1;
         AltALUSrc1      <= 1'b0; 
         ZeroALUSrc1     <= 1'b0; 

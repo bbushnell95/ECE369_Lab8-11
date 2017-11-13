@@ -48,7 +48,7 @@ module InstructionMemory(Address, Instruction);
     reg [31:0] memory[0:468];       // All instructions
 
     
-<<<<<<< HEAD
+//<<<<<<< HEAD
     initial begin                               // Initialize the InstructionBank
         memory[0] = 32'b00110100000100100000000000000000; //  main:       ori $s2, $zero, 0
         memory[1] = 32'b10001110010100100000000000000000;   //          lw  $s2, 0($s2)
@@ -113,9 +113,9 @@ module InstructionMemory(Address, Instruction);
         memory[60] = 32'b00001000000000000000000000111110;  //          j   error
         memory[61] = 32'b00001000000000000000000000111101;  //  done:       j   done
         memory[62] = 32'b00001000000000000000000000111110;  //  error:      j   error
-=======
-    initial begin                               // Initialize the InstructionBank with arbitrary values
-        $readmemh("Instruction_memory.txt", memory);
+//=======
+//    initial begin                               // Initialize the InstructionBank with arbitrary values
+//        $readmemh("Instruction_memory.txt", memory);
 //        memory[0] = 32'b00110100000100100000000000000000; //  main:       ori $s2, $zero, 0
 //        memory[1] = 32'b10001110010100100000000000000000;   //          lw  $s2, 0($s2)
 //        memory[2] = 32'b00110100000100110000000000000000;   //          ori $s3, $zero, 0
@@ -179,7 +179,7 @@ module InstructionMemory(Address, Instruction);
 //        memory[60] = 32'b00001000000000000000000000111110;  //          j   error
 //        memory[61] = 32'b00001000000000000000000000111101;  //  done:       j   done
 //        memory[62] = 32'b00001000000000000000000000111110;  //  error:      j   error
->>>>>>> 7c16af9957ec89c566b33c00b6d644b782721289
+//>>>>>>> 7c16af9957ec89c566b33c00b6d644b782721289
     end
    
     always @ (Address)              // Find the desired address then assign the output to the corresponding instruction
