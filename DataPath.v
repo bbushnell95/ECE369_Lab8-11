@@ -111,7 +111,7 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand);    //, HI
 
 	// TODO: implement hazard unit
 	HazardDetectionUnit HazardDetectionUnit(Reset, IDEX_EXU_MemRead, IFID_IDU_Instruction[25:21], IFID_IDU_Instruction[20:16], EXU_EXMEM_DestinationReg, Stall);
-    // need to add flush/stall capabilities to piperegs and PC
+    // need to add flush signal to old stuff when jumps are taken
 	
 	
     assign ProgramCount = IFU_IFID_PCValue - 4;
