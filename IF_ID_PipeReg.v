@@ -9,18 +9,21 @@
 // Description - Implements a register between IF and ID stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module IF_ID_PipeReg(Stall, PCValueIn, InstructionIn, Clk, PCValueOut, InstructionOut);
+module IF_ID_PipeReg(Flush, Stall, PCValueIn, InstructionIn, Clk, PCValueOut, InstructionOut);
 
     output reg [31:0] PCValueOut;
     output reg [31:0] InstructionOut;
 
     input [31:0] PCValueIn;
     input [31:0] InstructionIn;
-    input Stall, Clk; 
+    input Flush, Stall, Clk; 
         
     always @ (posedge Clk)
         begin
-        if (Stall != 1) begin
+        if (Flush == 1) begin
+            PCValueOut <= 0; 
+            InstructionOut <= 0; 
+        end else if (Stall != 1) begin
             PCValueOut <= PCValueIn; 
             InstructionOut <= InstructionIn; 
         end
