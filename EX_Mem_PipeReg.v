@@ -9,7 +9,7 @@
 // Description - Implements a register between EX and Mem stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, JumpIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, PCValueForJALIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, MemoryWriteDataOut, DestinationRegOut, PCValueForJALOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut);
+module EX_Mem_PipeReg(Reset, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, JumpIn, BranchTargetAddressIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, PCValueForJALIn, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, BranchTargetAddressOut, ALUOut, ZeroOut, MemoryWriteDataOut, DestinationRegOut, PCValueForJALOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut);
 
 	/* Control Signals*/
     output reg BranchOut; 
@@ -30,6 +30,7 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, L
     output reg [31:0] PCValueForJALOut; 
     
     /* Control Signals*/
+    input Reset; 
     input BranchIn; 
     input MemReadIn; 
     input MemWriteIn; 
@@ -50,6 +51,26 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, L
         
     always @ (posedge Clk)
         begin
+        
+        if (Reset == 1) begin
+            BranchOut <= 0; 
+            MemReadOut <= 0; 
+            MemWriteOut <= 0; 
+            RegWriteOut <= 0; 
+            MemToRegOut <= 0;
+            LoadStoreByteOut <= 0;
+            LoadStoreHalfOut <= 0;
+            NotZeroOut <= 0; 
+            JumpOut <= 0;
+        
+            BranchTargetAddressOut <= 0;
+            ALUOut <= 0;
+            ZeroOut <= 0;
+            MemoryWriteDataOut <= 0; 
+            DestinationRegOut <= 0; 
+            PCValueForJALOut <= 0; 
+        end 
+        else begin
             BranchOut <= BranchIn; 
             MemReadOut <= MemReadIn; 
             MemWriteOut <= MemWriteIn; 
@@ -67,5 +88,6 @@ module EX_Mem_PipeReg(BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, L
             DestinationRegOut <= DestinationRegIn; 
             PCValueForJALOut <= PCValueForJALIn; 
         end
-
+    end
+    
 endmodule
