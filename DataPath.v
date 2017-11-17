@@ -8,15 +8,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand);    //, HIRegOutput, LORegOutput);
+module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand, HIRegOutput, LORegOutput);
 	
 	input Reset, Clk; 
 	
 	output [31:0] WriteData; 
 	output [31:0] ProgramCount;
 	output RegWriteCommand;
-	//output [31:0] HIRegOutput; 
-	//output [31:0] LORegOutput;
+	output [31:0] HIRegOutput; 
+	output [31:0] LORegOutput;
 	
 	// MEM to IFU
 	wire [31:0]MEM_IFU_BranchTargetAddress; 
@@ -120,8 +120,8 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand);    //, HI
     assign ProgramCount = IFU_IFID_PCValue - 4;
     assign WriteData = WB_IDU_WriteData; 
     assign RegWriteCommand = WB_IDU_RegWrite; 
-    //assign HIRegOutput = EXU_HIRegOutput; 
-    //assign LORegOutput = EXU_LORegOutput;
+    assign HIRegOutput = EXU_HIRegOutput; 
+    assign LORegOutput = EXU_LORegOutput;
     
 endmodule
 
