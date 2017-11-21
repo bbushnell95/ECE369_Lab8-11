@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, ReadData1Overwrite, ReadData2Overwrite, ReadData1WBOverwrite, ReadData2WBOverwrite, ForwardedDataFromMEM, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut, InstructionOut);
+module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData, RegWriteIn, ReadData1Overwrite, ReadData2Overwrite, ReadData1WBOverwrite, ReadData2WBOverwrite, ForwardedDataFromMEM, Reset, Clk, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, PCValueOut, JumpPCValueOut, ReadData1Out, ReadData2Out, SignExtendOffsetOut, RDFieldOut, RTFieldOut, InstructionOut, XOut, YOut, CurrentMinOut);
 
     input Reset, Clk;
     input [31:0] Instruction;
@@ -52,15 +52,19 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     output [31:0] SignExtendOffsetOut;
     output [4:0] RDFieldOut; 
     output [4:0] RTFieldOut; 
-    output [31:0] InstructionOut; 
+    output [31:0] InstructionOut;
+    output [31:0] XOut, YOut;
+    output [31:0] CurrentMinOut; 
 
 	
 	wire ZeroExtend;
     wire [31:0] Mux1Input, Mux2Input; 	
     wire [31:0] MuxLink1, MuxLink2;
+    wire [31:0] XOutWire, YOutWire;
+    wire [31:0] CurrentMinOutWire;
 	
     // Included Modules
-    RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, Mux1Input, Mux2Input);
+    RegisterFile RegisterFile_1(Instruction[25:21], Instruction[20:16], DestinationRegIn, WriteData, RegWriteIn, Clk, Mux1Input, Mux2Input, CurrentMinOutWire, XOutWire, YOutWire);
     SignExtension SignExtension_1(Instruction[15:0], ZeroExtend, SignExtendOffsetOut);
     Controller Controller_1(Instruction, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, RegDstOut, ALUOpOut, ALUSrcOut, HiLoALUControlOut, AddToHiOut, AddToLoOut, MoveToHiOut, HiLoSelOut, ZeroExtend, AltALUSrc1Out, ZeroALUSrc1Out, ZeroALUSrc2Out, SwapOut, ALUHiLoSelectOut, MOVNOut, MOVZOut, StraightToHiOut, StraightToLoOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut);
     
@@ -78,6 +82,9 @@ module InstructionDecodeUnit(Instruction, PCValueIn, DestinationRegIn, WriteData
     assign RDFieldOut = Instruction[15:11];
     assign PCValueOut = PCValueIn;     
     assign InstructionOut = Instruction;
+    assign XOut = XOutWire;
+    assign YOut = YOutWire;
+    assign CurrentMinOut = CurrentMinOutWire;
     
 endmodule
 

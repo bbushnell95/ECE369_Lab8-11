@@ -24,10 +24,14 @@ module Top_Module(Rst, Clk, out7, en_out);
 input Rst, Clk;
 output [6:0] out7;
 output [7:0] en_out;
+
+wire [31:0] PCHolder, CMHolder;
+wire [31:0] XOut, YOut;
+
 //module DataPath(Reset, Clk, ProgramCount, Current_Min, XOut (NumberA), YOut(NumberB));
-
-
+DataPath DataPath_1(Rst, Clk, PCHolder, CMHolder, XOut, YOut);
 
 //module Two4DigitDisplay(Clk, NumberA, NumberB, out7, en_out);
+Two4DigitDisplay(Clk, XOut, YOut, out7, en_out);
 
 endmodule

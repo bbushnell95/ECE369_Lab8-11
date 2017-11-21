@@ -7,17 +7,15 @@
 // Derek Mcmullen -- 50% 
 //
 ////////////////////////////////////////////////////////////////////////////////
+//module DataPath(Reset, Clk, ProgramCount, Current_Min, XOut (NumberA), YOut(NumberB));
 
-module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand, HIRegOutput, LORegOutput);
+module DataPath(Reset, Clk, ProgramCount, CurrentMin, XOut, YOut);
 	
 	input Reset, Clk; 
-	
-	output [31:0] WriteData; 
+	 
 	output [31:0] ProgramCount;
-	output RegWriteCommand;
-	output [31:0] HIRegOutput; 
-	output [31:0] LORegOutput;
-	
+    output [31:0] CurrentMin;
+    output [31:0] XOut, YOut;
 	// MEM to IFU
 	wire [31:0]MEM_IFU_BranchTargetAddress; 
 	wire MEM_IFU_PCSrc; 
@@ -97,11 +95,14 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand, HIRegOutpu
 	wire Stall; 
 	
 	// Flushing wires
-	wire IF_ID_Flush, ID_EX_Flush, EX_MEM_Flush; 
+	wire IF_ID_Flush, ID_EX_Flush, EX_MEM_Flush;
 	
+	//Outputs for VBSM
+	wire [31:0] XOutWire, YOutWire, CurrentMinWire;
+		
     InstructionFetchUnit InstructionFetchUnit_1(Reset, Stall, Clk, MEM_IFU_PCSrc, IDU_IDEX_Jump, MEM_IFU_BranchTargetAddress, IDU_IFU_JumpPCValue, IDU_IDEX_ReadData1, IFU_IFID_Instruction, IFU_IFID_PCValue);
     IF_ID_PipeReg IF_ID_PipeReg_1(IF_ID_Flush, Stall, IFU_IFID_PCValue, IFU_IFID_Instruction, Clk, IFID_IDU_PCValue, IFID_IDU_Instruction);
-    InstructionDecodeUnit InstructionDecodeUnit_1(IFID_IDU_Instruction, IFID_IDU_PCValue, WB_IDU_DestinationReg, WB_IDU_WriteData, WB_IDU_RegWrite, IDU_ReadData1Overwrite, IDU_ReadData2Overwrite, IDU_ReadData1WBOverwrite, IDU_ReadData2WBOverwrite, EXMEM_MEM_ALU, Reset, Clk, IDU_IDEX_Branch, IDU_IDEX_MemRead, IDU_IDEX_MemWrite, IDU_IDEX_RegWrite, IDU_IDEX_MemToReg, IDU_IDEX_RegDst, IDU_IDEX_ALUOp, IDU_IDEX_ALUSrc, IDU_IDEX_HiLoALUControl, IDU_IDEX_AddToHi, IDU_IDEX_AddToLo, IDU_IDEX_MoveToHi, IDU_IDEX_HiLoSel, IDU_IDEX_AltALUSrc1, IDU_IDEX_ZeroALUSrc1, IDU_IDEX_ZeroALUSrc2, IDU_IDEX_Swap, IDU_IDEX_ALUHiLoSelect, IDU_IDEX_MOVN, IDU_IDEX_MOVZ, IDU_IDEX_StraightToHi, IDU_IDEX_StraightToLo, IDU_IDEX_LoadStoreByte, IDU_IDEX_LoadStoreHalf, IDU_IDEX_NotZero, IDU_IDEX_Jump, IDU_IDEX_PCValue, IDU_IFU_JumpPCValue, IDU_IDEX_ReadData1, IDU_IDEX_ReadData2, IDU_IDEX_SignExtendOffset, IDU_IDEX_RDField, IDU_IDEX_RTField, IDU_IDEX_Instruction);
+    InstructionDecodeUnit InstructionDecodeUnit_1(IFID_IDU_Instruction, IFID_IDU_PCValue, WB_IDU_DestinationReg, WB_IDU_WriteData, WB_IDU_RegWrite, IDU_ReadData1Overwrite, IDU_ReadData2Overwrite, IDU_ReadData1WBOverwrite, IDU_ReadData2WBOverwrite, EXMEM_MEM_ALU, Reset, Clk, IDU_IDEX_Branch, IDU_IDEX_MemRead, IDU_IDEX_MemWrite, IDU_IDEX_RegWrite, IDU_IDEX_MemToReg, IDU_IDEX_RegDst, IDU_IDEX_ALUOp, IDU_IDEX_ALUSrc, IDU_IDEX_HiLoALUControl, IDU_IDEX_AddToHi, IDU_IDEX_AddToLo, IDU_IDEX_MoveToHi, IDU_IDEX_HiLoSel, IDU_IDEX_AltALUSrc1, IDU_IDEX_ZeroALUSrc1, IDU_IDEX_ZeroALUSrc2, IDU_IDEX_Swap, IDU_IDEX_ALUHiLoSelect, IDU_IDEX_MOVN, IDU_IDEX_MOVZ, IDU_IDEX_StraightToHi, IDU_IDEX_StraightToLo, IDU_IDEX_LoadStoreByte, IDU_IDEX_LoadStoreHalf, IDU_IDEX_NotZero, IDU_IDEX_Jump, IDU_IDEX_PCValue, IDU_IFU_JumpPCValue, IDU_IDEX_ReadData1, IDU_IDEX_ReadData2, IDU_IDEX_SignExtendOffset, IDU_IDEX_RDField, IDU_IDEX_RTField, IDU_IDEX_Instruction, XOutWire, YOutWire, CurrentMinWIre);
     ID_EX_PipeReg ID_EX_PipeReg_1(ID_EX_Flush, IDU_IDEX_Branch, IDU_IDEX_MemRead, IDU_IDEX_MemWrite, IDU_IDEX_RegWrite, IDU_IDEX_MemToReg, IDU_IDEX_RegDst, IDU_IDEX_ALUOp, IDU_IDEX_ALUSrc, IDU_IDEX_HiLoALUControl, IDU_IDEX_AddToHi, IDU_IDEX_AddToLo, IDU_IDEX_MoveToHi, IDU_IDEX_HiLoSel, IDU_IDEX_AltALUSrc1, IDU_IDEX_ZeroALUSrc1, IDU_IDEX_ZeroALUSrc2, IDU_IDEX_Swap, IDU_IDEX_ALUHiLoSelect, IDU_IDEX_MOVN, IDU_IDEX_MOVZ, IDU_IDEX_StraightToHi, IDU_IDEX_StraightToLo, IDU_IDEX_LoadStoreByte, IDU_IDEX_LoadStoreHalf, IDU_IDEX_NotZero, IDU_IDEX_Jump, IDU_IDEX_PCValue, IDU_IDEX_ReadData1, IDU_IDEX_ReadData2, IDU_IDEX_SignExtendOffset, IDU_IDEX_RDField, IDU_IDEX_RTField, IDU_IDEX_Instruction, Clk, IDEX_EXU_Branch, IDEX_EXU_MemRead, IDEX_EXU_MemWrite, IDEX_EXU_RegWrite, IDEX_EXU_MemToReg, IDEX_EXU_RegDst, IDEX_EXU_ALUOp, IDEX_EXU_ALUSrc, IDEX_EXU_HiLoALUControl, IDEX_EXU_AddToHi, IDEX_EXU_AddToLo, IDEX_EXU_MoveToHi, IDEX_EXU_HiLoSel, IDEX_EXU_AltALUSrc1, IDEX_EXU_ZeroALUSrc1, IDEX_EXU_ZeroALUSrc2, IDEX_EXU_Swap, IDEX_EXU_ALUHiLoSelect, IDEX_EXU_MOVN, IDEX_EXU_MOVZ, IDEX_EXU_StraightToHi, IDEX_EXU_StraightToLo, IDEX_EXU_LoadStoreByte, IDEX_EXU_LoadStoreHalf, IDEX_EXU_NotZero, IDEX_EXU_Jump, IDEX_EXU_PCValue, IDEX_EXU_ReadData1, IDEX_EXU_ReadData2, IDEX_EXU_SignExtendOffset, IDEX_EXU_RDField, IDEX_EXU_RTField, IDEX_EXU_Instruction);
     ExecuteUnit ExecuteUnit_1(Reset, Clk, IDEX_EXU_Branch, IDEX_EXU_MemRead, IDEX_EXU_MemWrite, IDEX_EXU_RegWrite, IDEX_EXU_MemToReg, IDEX_EXU_RegDst, IDEX_EXU_ALUOp, IDEX_EXU_ALUSrc, IDEX_EXU_AltALUSrc1, IDEX_EXU_ZeroALUSrc1, IDEX_EXU_ZeroALUSrc2, IDEX_EXU_Swap, IDEX_EXU_ALUHiLoSelect, IDEX_EXU_MOVN, IDEX_EXU_MOVZ, IDEX_EXU_StraightToHi, IDEX_EXU_StraightToLo, IDEX_EXU_LoadStoreByte, IDEX_EXU_LoadStoreHalf, IDEX_EXU_NotZero, IDEX_EXU_Jump, EXU_ReadData1MEMOverwrite, EXU_ReadData2MEMOverwrite, EXU_ReadData1WBOverwrite, EXU_ReadData2WBOverwrite,IDEX_EXU_PCValue, IDEX_EXU_ReadData1, IDEX_EXU_ReadData2, IDEX_EXU_SignExtendOffset, IDEX_EXU_RDField, IDEX_EXU_RTField, IDEX_EXU_Instruction, EXMEM_MEM_ALU, WB_IDU_WriteData, IDEX_EXU_HiLoALUControl, IDEX_EXU_AddToHi, IDEX_EXU_AddToLo, IDEX_EXU_MoveToHi, IDEX_EXU_HiLoSel, EXU_EXMEM_Branch, EXU_EXMEM_MemRead, EXU_EXMEM_MemWrite, EXU_EXMEM_RegWrite, EXU_EXMEM_MemToReg, EXU_EXMEM_LoadStoreByte, EXU_EXMEM_LoadStoreHalf, EXU_EXMEM_NotZero, EXU_EXMEM_Jump, EXU_EXMEM_BranchTargetAddress, EXU_EXMEM_ExecuteData, EXU_EXMEM_Zero, EXU_EXMEM_DestinationReg, EXU_EXMEM_MemoryWriteData, EXU_HIRegOutput, EXU_LORegOutput, EXU_EXMEM_PCValueForJAL);	
     EX_Mem_PipeReg EX_Mem_PipeReg_1(EX_MEM_Flush, EXU_EXMEM_Branch, EXU_EXMEM_MemRead, EXU_EXMEM_MemWrite, EXU_EXMEM_RegWrite, EXU_EXMEM_MemToReg, EXU_EXMEM_LoadStoreByte, EXU_EXMEM_LoadStoreHalf, EXU_EXMEM_NotZero, EXU_EXMEM_Jump, EXU_EXMEM_BranchTargetAddress, EXU_EXMEM_ExecuteData, EXU_EXMEM_Zero, EXU_EXMEM_MemoryWriteData, EXU_EXMEM_DestinationReg, EXU_EXMEM_PCValueForJAL, Clk, EXMEM_MEM_Branch, EXMEM_MEM_MemRead, EXMEM_MEM_MemWrite, EXMEM_MEM_RegWrite, EXMEM_MEM_MemToReg, EXMEM_MEM_BranchTargetAddress, EXMEM_MEM_ALU, EXMEM_MEM_Zero, EXMEM_MEM_MemoryWriteData, EXMEM_MEM_DestinationReg, EXMEM_MEM_PCValueForJAL, EXMEM_MEM_LoadStoreByte, EXMEM_MEM_LoadStoreHalf, EXMEM_MEM_NotZero, EXMEM_MEM_Jump);
@@ -118,10 +119,9 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand, HIRegOutpu
 	assign ID_EX_Flush = MEM_IFU_PCSrc | Stall; 
 	assign EX_MEM_Flush = MEM_IFU_PCSrc; 
     assign ProgramCount = IFU_IFID_PCValue - 4;
-    assign WriteData = WB_IDU_WriteData; 
-    assign RegWriteCommand = WB_IDU_RegWrite; 
-    assign HIRegOutput = EXU_HIRegOutput; 
-    assign LORegOutput = EXU_LORegOutput;
+    assign XOut = XOutWire;
+    assign YOut = YOutWire;
+    assign CurrentMin = CurrentMinWire;
     
 endmodule
 
