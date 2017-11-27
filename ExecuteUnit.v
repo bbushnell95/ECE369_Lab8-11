@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, StraightToHiIn, StraightToLoIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, JumpIn, ReadData1MEMOverwrite, ReadData2MEMOverwrite, ReadData1WBOverwrite, ReadData2WBOverwrite, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, InstructionIn, ForwardedDataFromMEM, ForwardedDataFromWB, HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut, EXU_HIRegOutput, EXU_LORegOutput, PCValueForJALOut);	
+module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, RegDstIn, ALUOpIn, ALUSrcIn, AltALUSrc1In, ZeroALUSrc1In, ZeroALUSrc2In, SwapIn, ALUHiLoSelectIn, MOVNIn, MOVZIn, StraightToHiIn, StraightToLoIn, LoadStoreByteIn, LoadStoreHalfIn, NotZeroIn, JumpIn, ReadData1MEMOverwrite, ReadData2MEMOverwrite, ReadData1WBOverwrite, ReadData2WBOverwrite, PCValueIn, ReadData1In, ReadData2In, SignExtendOffsetIn, RDFieldIn, RTFieldIn, InstructionIn, ForwardedDataFromMEM, ForwardedDataFromWB, HiLoALUControl, AddToHi, AddToLo, MoveToHi, HiLoSel, BranchOut, MemReadOut, MemWriteOut, RegWriteOut, MemToRegOut, LoadStoreByteOut, LoadStoreHalfOut, NotZeroOut, JumpOut, BranchTargetAddressOut, ExecuteDataOut, ZeroOut, DestinationRegOut, MemoryWriteDataOut, EXU_HIRegOutput, EXU_LORegOutput, PCValueForJALOut, InstructionOut);	
 	/* Control Signals*/
     output BranchOut; 
     output MemReadOut; 
@@ -27,6 +27,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     output [31:0] MemoryWriteDataOut;
     output [31:0] EXU_HIRegOutput, EXU_LORegOutput; 
     output [31:0] PCValueForJALOut; 
+    output [31:0] InstructionOut; 
   
 	/* Control Signals */
     input Reset, Clk;
@@ -116,6 +117,7 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign NotZeroOut = NotZeroIn;
     assign PCValueForJALOut = PCValueIn; 
     assign JumpOut = JumpIn; 
+    assign InstructionOut = InstructionIn; 
     
     always @(ReadData2In or RegWriteIn or MOVZIn or MOVNIn) begin
         if ((MOVZIn == 1) && (ReadData2In == 0)) begin
