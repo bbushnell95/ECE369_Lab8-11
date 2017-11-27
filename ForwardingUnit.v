@@ -17,7 +17,11 @@ module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_Destinatio
 	
 	
 	always @(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_DestinationRegAddress, WB_DestinationRegAddress, MEM_RegWrite, WB_RegWrite) begin
-		
+            EXU_ReadData1MEMOverwrite <= 0;
+            EXU_ReadData2MEMOverwrite <= 0;
+            IDU_ReadData1Overwrite <= 0;
+            IDU_ReadData2Overwrite <= 0;
+            
 		if (EXU_RsReg == MEM_DestinationRegAddress && MEM_RegWrite == 1) begin
 			EXU_ReadData1MEMOverwrite <= 1;
 			EXU_ReadData1WBOverwrite <= 0; 

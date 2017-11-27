@@ -32,6 +32,6 @@ wire [31:0] XOut, YOut;
 DataPath DataPath_1(Rst, Clk, PCHolder, CMHolder, XOut, YOut);
 
 //module Two4DigitDisplay(Clk, NumberA, NumberB, out7, en_out);
-Two4DigitDisplay(Clk, XOut, YOut, out7, en_out);
+Two4DigitDisplay Two4DigitDisplay1(Clk, XOut, YOut, out7, en_out);
 
 endmodule
