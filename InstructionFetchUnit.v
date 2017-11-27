@@ -52,16 +52,21 @@ module InstructionFetchUnit(Reset, Stall, Clk, PCSrcIn, JumpIn, BranchTargetAddr
     output [31:0] Instruction;
     output [31:0] PCValueOut;
     
-    wire [31:0] addrOut, programCount, nextPC, branchAddWire, jumpWire;
+    wire [31:0] addrOut, programCount, nextPC, branchAddWire, jumpWire; 
     
     // Included Modules
     PCAdder PCAdder_1(programCount, addrOut);
-    ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Stall, Clk);
+    ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Stall, PCSrcIn, Clk);
     InstructionMemory InstuctionMemory_1(programCount, Instruction);
-    Mux32Bit2To1 Mux32Bit2To1_1(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
     
-    Mux32Bit2To1 JR_JumpMux(jumpWire, branchAddWire, JRJumpPCValueIn, JumpIn[1]);
-    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
+    Mux32Bit2To1 Branch_Mux(nextPC, branchAddWire, BranchTargetAddressIn, PCSrcIn);
+    Mux32Bit2To1 JR_JumpMux(jumpWire, addrOut, JRJumpPCValueIn, JumpIn[1]);
+    Mux32Bit2To1 J_JumpMux1(branchAddWire, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
+
+    
+//    Mux32Bit2To1 Branch_Mux(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
+//    Mux32Bit2To1 JR_JumpMux(jumpWire, branchAddWire, JRJumpPCValueIn, JumpIn[1]);
+//    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
     
 //    initial begin
 //        CurrentPCOut <= 32'b0; 
