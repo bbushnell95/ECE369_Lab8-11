@@ -116,7 +116,7 @@ module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand, HIRegOutpu
 	HazardDetectionUnit HazardDetectionUnit(Reset, IDEX_EXU_MemRead, IFID_IDU_Instruction[25:21], IFID_IDU_Instruction[20:16], EXU_EXMEM_DestinationReg, Stall, IDU_IDEX_Jump, IDU_IDEX_Instruction, EXU_EXMEM_Instruction, EXMEM_MEM_Instruction);
     // need to add flush signal to old stuff when jumps are taken
 	
-	assign IF_ID_Flush = (IDU_IDEX_Jump[1] | IDU_IDEX_Jump[0] | MEM_IFU_PCSrc); 
+	assign IF_ID_Flush = (IDU_IDEX_Jump[1] | IDU_IDEX_Jump[0]); 
 	assign ID_EX_Flush = MEM_IFU_PCSrc | Stall; 
 	assign EX_MEM_Flush = MEM_IFU_PCSrc; 
     assign ProgramCount = IFU_IFID_PCValue - 4;

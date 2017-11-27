@@ -20,11 +20,13 @@ module HazardDetectionUnit(Reset, EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, 
 			end
 		end else if (Reset == 1) begin
 			Stall <= 1;
-		end
+		end else begin
+		    Stall <= 0; 
+        end
 	end
 	
 	always @(*) begin
-	   if (IDU_Jump[0] == 1) begin
+	   if (IDU_Jump != 0) begin
 	       if ((EXU_Instruction[31:26] == 6'b000001 && EXU_Instruction[20:16] == 5'b00001) || (MEM_Instruction[31:26] == 6'b000001 && MEM_Instruction[20:16] == 5'b00001)) begin           // BGEZ command
 	           Stall <= 1; 
            end else if ((EXU_Instruction[31:26] == 6'b000111 && EXU_Instruction[20:16] == 5'b00000) || (MEM_Instruction[31:26] == 6'b000111 && MEM_Instruction[20:16] == 5'b00000)) begin           // BGTZ command
@@ -37,7 +39,9 @@ module HazardDetectionUnit(Reset, EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, 
                Stall <= 1; 
            end else if ((EXU_Instruction[31:26] == 6'b000001 && EXU_Instruction[20:16] == 5'b00000) || (MEM_Instruction[31:26] == 6'b000001 && MEM_Instruction[20:16] == 5'b00000)) begin           // BLTZ command
                Stall <= 1;  
-           end 
+           end else if (EXU_Instruction[31:26] == 6'b000011 || MEM_Instruction[31:26] == 6'b000011) begin           // JAL command
+               Stall <= 1;
+           end
        end
 	end
 	
