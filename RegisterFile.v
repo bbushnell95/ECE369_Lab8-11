@@ -67,8 +67,8 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     
     initial begin
         RegisterBank[0] <= 32'b0;
-        RegisterBank[25] <= 32'b0;
-        RegisterBank[24] <= 32'b0; 
+        RegisterBank[2] <= 32'b0;
+        RegisterBank[3] <= 32'b0; 
     
     end
         
@@ -82,9 +82,9 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
         begin
            ReadData1 <= RegisterBank[ReadRegister1]; 
            ReadData2 <= RegisterBank[ReadRegister2];
-           CurrentMin <= RegisterBank[4];
-           XOut <= RegisterBank[25];
-           YOut <= RegisterBank[24]; 
+           CurrentMin <= RegisterBank[16];
+           XOut <= RegisterBank[2];
+           YOut <= RegisterBank[3]; 
         end        
 
 endmodule
