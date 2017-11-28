@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 
-module HazardDetectionUnit(Reset, EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, Stall, IDU_Jump, IDU_Instruction, EXU_Instruction, MEM_Instruction);
+module HazardDetectionUnit(Reset, EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, Stall, IDU_Jump, IDU_Instruction, EXU_Instruction, MEM_Instruction, WB_Instruction);
 
 	input EXU_MemRead, Reset;
 	input [1:0] IDU_Jump; 
 	input [4:0] IDU_RsReg, IDU_RtReg, EXU_RtReg;
-	input [31:0] IDU_Instruction, EXU_Instruction, MEM_Instruction; 
+	input [31:0] IDU_Instruction, EXU_Instruction, MEM_Instruction, WB_Instruction; 
 
 	output Stall;
 
@@ -39,8 +39,10 @@ module HazardDetectionUnit(Reset, EXU_MemRead, IDU_RsReg, IDU_RtReg, EXU_RtReg, 
                Stall <= 1; 
            end else if ((EXU_Instruction[31:26] == 6'b000001 && EXU_Instruction[20:16] == 5'b00000) || (MEM_Instruction[31:26] == 6'b000001 && MEM_Instruction[20:16] == 5'b00000)) begin           // BLTZ command
                Stall <= 1;  
-           end else if (EXU_Instruction[31:26] == 6'b000011 || MEM_Instruction[31:26] == 6'b000011) begin           // JAL command
+           end else if (EXU_Instruction[31:26] == 6'b000011 || MEM_Instruction[31:26] == 6'b000011 || WB_Instruction[31:26] == 6'b000011) begin           // JAL command
                Stall <= 1;
+           end else begin
+               Stall <= 0; 
            end
        end
 	end
