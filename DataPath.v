@@ -6,6 +6,10 @@
 // Brett Bushnell -- 50%
 // Derek Mcmullen -- 50% 
 //
+// Description:
+//      Number of Stages: 5
+//      Branch Decision/Resolution: Execute Stage
+//      Jump Resolution: Decode stage
 ////////////////////////////////////////////////////////////////////////////////
 
 module DataPath(Reset, Clk, WriteData, ProgramCount, RegWriteCommand, HIRegOutput, LORegOutput);
