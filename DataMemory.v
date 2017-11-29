@@ -48,12 +48,12 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStor
     output reg[31:0] ReadData; // Contents of memory location at Address
 
     /* Please fill in the implementation here */
-    reg [31:0] memory[0:2047];
+    reg [31:0] memory[0:1023];
     
     integer i;
     
     initial begin
-        $readmemh("data_memory.txt", Memory);
+        $readmemh("data_memory.txt", memory);
         
         /* This memory is from testing the SAD routine */
         // memory[0] = 32'd16;
