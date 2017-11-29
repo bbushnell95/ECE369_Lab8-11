@@ -45,6 +45,7 @@ module ID_EX_PipeReg(Reset, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRe
     
     /* Control Signals*/
     input Reset; 
+    //input Stall; 
     input BranchIn; 
     input MemReadIn; 
     input MemWriteIn; 
