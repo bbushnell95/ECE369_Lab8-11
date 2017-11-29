@@ -90,10 +90,10 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
             end
             SEH: TempResult = {{16{B[15]}}, B[15:0]};
             SEB: TempResult = {{24{B[7]}}, B[7:0]};
-            SLL: TempResult = {{32{1'b0}}, (A << B[10:6])};
-            SRL: TempResult = {{32{1'b0}}, (A >> B[10:6])};
+            SLL: TempResult = A << B[10:6];
+            SRL: TempResult = A >> B[10:6];
             SLLV: TempResult = A << B; 
-            SRLV: TempResult = {{32{1'b0}}, (A >> B)}; 
+            SRLV: TempResult = A >> B; 
             ROTR: TempResult = {{32{1'b0}}, (A << 32-B[10:6]) | (A >> B[10:6])};
             ROTRV: TempResult = {{32{1'b0}}, (A << 32-B) | (A >> B)};
             SRA: TempResult = A >>> B;
