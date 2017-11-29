@@ -39,10 +39,10 @@
 // which generates a continuous clock pulse into the module.
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionFetchUnit(Reset, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, JumpConcatPCValueIn, JRJumpPCValueIn, Instruction, PCValueOut);
+module InstructionFetchUnit(Reset, Stall, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, JumpConcatPCValueIn, JRJumpPCValueIn, Instruction, PCValueOut);
 
     /* Please fill in the implementation here... */
-    input Reset, Clk;
+    input Reset, Stall, Clk;
     input PCSrcIn; 
     input [1:0] JumpIn; 
     input [31:0] BranchTargetAddressIn; 
@@ -52,16 +52,16 @@ module InstructionFetchUnit(Reset, Clk, PCSrcIn, JumpIn, BranchTargetAddressIn, 
     output [31:0] Instruction;
     output [31:0] PCValueOut;
     
-    wire [31:0] addrOut, programCount, nextPC, branchAddWire, jumpWire;
+    wire [31:0] addrOut, programCount, nextPC, branchAddWire, jumpWire; 
     
     // Included Modules
     PCAdder PCAdder_1(programCount, addrOut);
-    ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Clk);
+    ProgramCounter ProgramCounter_1(nextPC, programCount, Reset, Stall, PCSrcIn, Clk);
     InstructionMemory InstuctionMemory_1(programCount, Instruction);
-    Mux32Bit2To1 Mux32Bit2To1_1(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
     
-    Mux32Bit2To1 JR_JumpMux(jumpWire, branchAddWire, JRJumpPCValueIn, JumpIn[1]);
-    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
+    Mux32Bit2To1 Branch_Mux(nextPC, branchAddWire, BranchTargetAddressIn, PCSrcIn);
+    Mux32Bit2To1 JR_JumpMux(jumpWire, addrOut, JRJumpPCValueIn, JumpIn[1]);
+    Mux32Bit2To1 J_JumpMux1(branchAddWire, jumpWire, JumpConcatPCValueIn, JumpIn[0]);    
     
 //    initial begin
 //        CurrentPCOut <= 32'b0; 

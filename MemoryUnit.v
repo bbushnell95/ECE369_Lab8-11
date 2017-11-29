@@ -8,7 +8,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, NotZeroIn, JumpIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, PCValueForJALIn, RegWriteOut, MemToRegOut, PCSrcOut, JumpOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut, PCValueForJALOut);
+module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, LoadStoreByteIn, LoadStoreHalfIn, BranchTargetAddressIn, NotZeroIn, JumpIn, ALUIn, ZeroIn, MemoryWriteDataIn, DestinationRegIn, PCValueForJALIn, InstructionIn, RegWriteOut, MemToRegOut, PCSrcOut, JumpOut, BranchTargetAddressOut, ALUOut, DataMemOut, DestinationRegOut, PCValueForJALOut, InstructionOut);
 	
     /* Control Signals*/
     output RegWriteOut; 
@@ -21,6 +21,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     output [31:0] DataMemOut;
     output [4:0] DestinationRegOut; 
     output [31:0] PCValueForJALOut; 
+    output [31:0] InstructionOut;
 	
 	/* Control Signals*/
 	input Clk; 
@@ -40,6 +41,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     input [31:0] MemoryWriteDataIn; 
     input [4:0] DestinationRegIn;
     input [31:0] PCValueForJALIn;
+    input [31:0] InstructionIn; 
 
 
     wire ZeroMuxOut; 
@@ -55,6 +57,7 @@ module MemoryUnit(Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemToRegIn, 
     assign ALUOut = ALUIn; 
     assign PCValueForJALOut = PCValueForJALIn;
     assign JumpOut = JumpIn; 
+    assign InstructionOut = InstructionIn; 
     
     // Branch AND Gate Logic
     assign PCSrcOut = (ZeroMuxOut & BranchIn); 
