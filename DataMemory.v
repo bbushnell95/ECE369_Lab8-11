@@ -53,22 +53,7 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData, LoadStor
     integer i;
     
     initial begin
-        Memory[0] <= 32'h00000064;
-        Memory[1] <= 32'h000000C8;
-        Memory[2] <= 32'h0000012C;
-        Memory[3] <= 32'h00000190;
-        Memory[4] <= 32'h000001F4;
-        Memory[5] <= 32'h00000258;
-        Memory[6] <= 32'h000002BC;
-        Memory[7] <= 32'h00000320;
-        Memory[8] <= 32'h00000384;
-        Memory[9] <= 32'h000003E8;
-        Memory[10] <= 32'h0000044C;
-        Memory[11] <= 32'h000004B0;
-        
-        for(i=12; i < 1024; i = i + 1) begin
-           Memory[i] <= 32'b0;    
-        end
+        $readmemh("data_memory.txt", Memory);
     end
     
     always@(posedge Clk)begin   //, MemRead
