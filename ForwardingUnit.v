@@ -17,11 +17,11 @@ module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_Destinatio
 	
 	
 	always @(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_DestinationRegAddress, WB_DestinationRegAddress, MEM_RegWrite, WB_RegWrite) begin
-            EXU_ReadData1MEMOverwrite <= 0;
-            EXU_ReadData2MEMOverwrite <= 0;
-            IDU_ReadData1Overwrite <= 0;
-            IDU_ReadData2Overwrite <= 0;
-            
+        EXU_ReadData1MEMOverwrite <= 0;
+        EXU_ReadData2MEMOverwrite <= 0;
+        IDU_ReadData1Overwrite <= 0;
+        IDU_ReadData2Overwrite <= 0;
+
 		if (EXU_RsReg == MEM_DestinationRegAddress && MEM_RegWrite == 1) begin
 			EXU_ReadData1MEMOverwrite <= 1;
 			EXU_ReadData1WBOverwrite <= 0; 
@@ -46,7 +46,7 @@ module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_Destinatio
 		if (IDU_RsReg == MEM_DestinationRegAddress && MEM_RegWrite == 1 && MEM_DestinationRegAddress != 0) begin
 			IDU_ReadData1Overwrite <= 1;
 			IDU_ReadData1WBOverwrite <= 0;
-        end else if (IDU_RsReg == WB_DestinationRegAddress && WB_RegWrite == 1 && WB_DestinationRegAddress != 0) begin
+        end else if (IDU_RsReg == WB_DestinationRegAddress && WB_RegWrite == 1) begin
             IDU_ReadData1WBOverwrite <= 1;
 		end else begin
 			IDU_ReadData1Overwrite <= 0;
@@ -56,7 +56,7 @@ module ForwardingUnit(IDU_RsReg, IDU_RtReg, EXU_RsReg, EXU_RtReg, MEM_Destinatio
 		if (IDU_RtReg == MEM_DestinationRegAddress && MEM_RegWrite == 1 && MEM_DestinationRegAddress != 0) begin
 			IDU_ReadData2Overwrite <= 1;
             IDU_ReadData2WBOverwrite <= 0;
-        end else if (IDU_RtReg == WB_DestinationRegAddress && WB_RegWrite == 1 && WB_DestinationRegAddress != 0) begin
+        end else if (IDU_RtReg == WB_DestinationRegAddress && WB_RegWrite == 1) begin
             IDU_ReadData2WBOverwrite <= 1;
 		end else begin
 			IDU_ReadData2Overwrite <= 0;

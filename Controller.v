@@ -49,7 +49,8 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
         ZeroExtend      <= 1'b0; 
         MemToReg        <= 1'b0;
         AltALUSrc1      <= 1'b0; 
-        ZeroALUSrc1     <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
         Swap            <= 1'b0; 
         ALUHiLoSelect   <= 1'b0; 
         HiLoALUControl  <= 1'b0; 
@@ -1653,32 +1654,32 @@ module Controller(Instruction, Branch, MemRead, MemWrite, RegWrite, MemToReg, Re
     end
     default: begin
         RegWrite        <= 1'b0;
-            ALUSrc          <= 1'b0;
-            ALUOp           <= 5'b00000;        
-            RegDst          <= 1'b0; 
-            Branch          <= 1'b0; 
-            MemWrite        <= 1'b0; 
-            MemRead         <= 1'b0; 
-            ZeroExtend      <= 1'b0; 
-            MemToReg        <= 1'b0;
-            AltALUSrc1      <= 1'b0; 
-            ZeroALUSrc1     <= 1'b0;
-            ZeroALUSrc2     <= 1'b0; 
-            Swap            <= 1'b0; 
-            ALUHiLoSelect   <= 1'b0; 
-            HiLoALUControl  <= 1'b0; 
-            AddToHi         <= 1'b0; 
-            AddToLo         <= 1'b0; 
-            MoveToHi        <= 1'b0; 
-            StraightToHi    <= 1'b0; 
-            StraightToLo    <= 1'b0;
-            HiLoSel         <= 1'b0;
-            MOVN            <= 1'b0;
-            MOVZ            <= 1'b0;
-            LoadStoreByte   <= 1'b0;
-            LoadStoreHalf   <= 1'b0; 
-            NotZero         <= 1'b0;
-            Jump            <= 2'b00;
+        ALUSrc          <= 1'b0;
+        ALUOp           <= 5'bxxxxx;        
+        RegDst          <= 1'b0; 
+        Branch          <= 1'b0; 
+        MemWrite        <= 1'b0; 
+        MemRead         <= 1'b0; 
+        ZeroExtend      <= 1'b0; 
+        MemToReg        <= 1'b0;
+        AltALUSrc1      <= 1'b0; 
+        ZeroALUSrc1     <= 1'b0;
+        ZeroALUSrc2     <= 1'b0; 
+        Swap            <= 1'b0; 
+        ALUHiLoSelect   <= 1'b0; 
+        HiLoALUControl  <= 1'b0; 
+        AddToHi         <= 1'b0; 
+        AddToLo         <= 1'b0; 
+        MoveToHi        <= 1'b0; 
+        StraightToHi    <= 1'b0; 
+        StraightToLo    <= 1'b0;
+        HiLoSel         <= 1'b0;
+        MOVN            <= 1'b0;
+        MOVZ            <= 1'b0;
+        LoadStoreByte   <= 1'b0;
+        LoadStoreHalf   <= 1'b0; 
+        NotZero         <= 1'b0;
+        Jump            <= 2'b00;
     end         
     
     endcase

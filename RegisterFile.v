@@ -49,12 +49,11 @@
 // to allow for data multiplexing and setup time.
 ////////////////////////////////////////////////////////////////////////////////
 
-module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2, CurrentMin, XOut, YOut);
+module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegWrite, Clk, ReadData1, ReadData2);
 
 	/* Please fill in the implementation here... */
     output reg [31:0] ReadData1;
     output reg [31:0] ReadData2;
-    output reg [31:0] CurrentMin, XOut, YOut;
     
     input [4:0] ReadRegister1;
     input [4:0] ReadRegister2;
@@ -66,9 +65,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     reg [31:0] RegisterBank[31:0];          //32 registers of 32-bit length
     
     initial begin
-        RegisterBank[0] <= 32'b0;
-        RegisterBank[2] <= 32'b0;
-        RegisterBank[3] <= 32'b0; 
+        RegisterBank[0] <= 32'b0; 
     
     end
         
@@ -81,10 +78,7 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
     always @ (negedge Clk)
         begin
            ReadData1 <= RegisterBank[ReadRegister1]; 
-           ReadData2 <= RegisterBank[ReadRegister2];
-           CurrentMin <= RegisterBank[16];
-           XOut <= RegisterBank[2];
-           YOut <= RegisterBank[3]; 
+           ReadData2 <= RegisterBank[ReadRegister2]; 
         end        
 
 endmodule
