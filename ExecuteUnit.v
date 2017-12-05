@@ -133,4 +133,3 @@ module ExecuteUnit(Reset, Clk, BranchIn, MemReadIn, MemWriteIn, RegWriteIn, MemT
     assign BranchTargetAddressOut = (SignExtendOffsetIn << 2) + PCValueIn; 
     
 endmodule
-

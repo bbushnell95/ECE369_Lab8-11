@@ -61,7 +61,12 @@ module InstructionFetchUnit(Reset, Stall, Clk, PCSrcIn, JumpIn, BranchTargetAddr
     
     Mux32Bit2To1 Branch_Mux(nextPC, branchAddWire, BranchTargetAddressIn, PCSrcIn);
     Mux32Bit2To1 JR_JumpMux(jumpWire, addrOut, JRJumpPCValueIn, JumpIn[1]);
-    Mux32Bit2To1 J_JumpMux1(branchAddWire, jumpWire, JumpConcatPCValueIn, JumpIn[0]);    
+    Mux32Bit2To1 J_JumpMux1(branchAddWire, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
+
+    
+//    Mux32Bit2To1 Branch_Mux(branchAddWire, addrOut, BranchTargetAddressIn, PCSrcIn);
+//    Mux32Bit2To1 JR_JumpMux(jumpWire, branchAddWire, JRJumpPCValueIn, JumpIn[1]);
+//    Mux32Bit2To1 J_JumpMux1(nextPC, jumpWire, JumpConcatPCValueIn, JumpIn[0]);   
     
 //    initial begin
 //        CurrentPCOut <= 32'b0; 
@@ -75,4 +80,3 @@ module InstructionFetchUnit(Reset, Stall, Clk, PCSrcIn, JumpIn, BranchTargetAddr
 //    assign CurrentPCOut = programCount;
 
 endmodule
-
