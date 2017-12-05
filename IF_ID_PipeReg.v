@@ -20,13 +20,10 @@ module IF_ID_PipeReg(Flush, Stall, PCValueIn, InstructionIn, Clk, PCValueOut, In
         
     always @ (posedge Clk)
         begin
-        if (Stall == 1) begin
-            PCValueOut <= PCValueOut; 
-            InstructionOut <= InstructionOut; 
-        end else if (Flush == 1) begin
+        if (Flush == 1) begin
             PCValueOut <= 0; 
             InstructionOut <= 0; 
-        end else begin
+        end else if (Stall != 1) begin
             PCValueOut <= PCValueIn; 
             InstructionOut <= InstructionIn; 
         end
