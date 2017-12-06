@@ -9,7 +9,7 @@
 // Description - Implements a register between Mem and WB stage of processor
 ////////////////////////////////////////////////////////////////////////////////
 
-module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, JumpIn, ALUIn, DataMemIn, DestinationRegIn, PCValueForJALIn, InstructionIn, Clk, RegWriteOut, MemToRegOut, JumpOut, ALUOut, DataMemOut, DestinationRegOut, PCValueForJALOut, InstructionOut);
+module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, JumpIn, ALUIn, DataMemIn, DestinationRegIn, PCValueForJALIn, Clk, RegWriteOut, MemToRegOut, JumpOut, ALUOut, DataMemOut, DestinationRegOut, PCValueForJALOut);
 
 	/* Control Signals*/
     output reg RegWriteOut; 
@@ -20,7 +20,6 @@ module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, JumpIn, ALUIn, DataMemIn, Destinat
     output reg [31:0] DataMemOut;
     output reg [4:0] DestinationRegOut; 
     output reg [31:0] PCValueForJALOut;
-    output reg [31:0] InstructionOut; 
     
     /* Control Signals*/
     input RegWriteIn; 
@@ -31,7 +30,6 @@ module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, JumpIn, ALUIn, DataMemIn, Destinat
     input [31:0] DataMemIn;
     input [4:0] DestinationRegIn; 
     input [31:0] PCValueForJALIn;
-    input [31:0] InstructionIn; 
     input Clk; 
         
     always @ (posedge Clk)
@@ -44,7 +42,6 @@ module Mem_WB_PipeReg(RegWriteIn, MemToRegIn, JumpIn, ALUIn, DataMemIn, Destinat
         DataMemOut <= DataMemIn;
         DestinationRegOut <= DestinationRegIn; 
         PCValueForJALOut <= PCValueForJALIn;
-        InstructionOut <= InstructionIn; 
         end
 
 endmodule

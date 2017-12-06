@@ -42,4 +42,3 @@ module WriteBackUnit(RegWriteIn, MemToRegIn, JumpIn, ALUIn, MemoryReadDataIn, De
 	assign JumpControlsOrTogether = (JumpIn[0] | JumpIn[1]); 
     
 endmodule
-
